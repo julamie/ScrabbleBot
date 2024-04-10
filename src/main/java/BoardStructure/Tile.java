@@ -29,4 +29,10 @@ public class Tile {
     public boolean isBlank() {
         return (this.getLetter() == '?');
     }
+
+    public void setLetter(char letter) {
+        if (!isBlank()) throw new IllegalArgumentException("Can't change a tile that already has a letter on it");
+
+        this.letter = letter;
+    }
 }
