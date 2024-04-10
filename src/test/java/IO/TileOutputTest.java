@@ -41,6 +41,18 @@ class TileOutputTest {
     }
 
     @Test
+    void blankTileShouldNotDisplayItsValue() {
+        Tile blankTile = new Tile('?', 0);
+
+        String lowerLine = TileOutput.getTileOutputLines(blankTile)[1].toString();
+
+        // remove ANSI Encoding from string
+        lowerLine = lowerLine.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "");
+
+        assertEquals("     ", lowerLine);
+    }
+
+    @Test
     void printingTileShouldHaveHeightOfTwo() {
         Tile tile = new Tile('X', 8);
 
