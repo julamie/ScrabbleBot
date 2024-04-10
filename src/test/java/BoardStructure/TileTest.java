@@ -43,4 +43,27 @@ class TileTest {
         assertTrue(tile.isBlank());
     }
 
+    @Test
+    void givingABlankTileALetterShouldBeOkay() {
+        Tile blankTile = new Tile('?', 0);
+        blankTile.setLetter('E');
+
+        assertEquals('E', blankTile.getLetter());
+    }
+
+    @Test
+    void givingANormalTileANewLetterShouldThrowException() {
+        Tile tile = new Tile('E', 1);
+
+        assertThrows(IllegalArgumentException.class, () -> tile.setLetter('F'));
+    }
+
+    @Test
+    void givingABlankTileWithPreviouslyGivenLetterNewLetterShouldReturnException() {
+        Tile blankTile = new Tile('?', 0);
+        blankTile.setLetter('X');
+
+        assertThrows(IllegalArgumentException.class, () -> blankTile.setLetter('G'));
+    }
+
 }
