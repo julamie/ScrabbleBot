@@ -1,8 +1,5 @@
 package BoardStructure;
 
-import BoardStructure.Square;
-import BoardStructure.SquareType;
-import BoardStructure.Tile;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,10 +1,7 @@
 import BoardStructure.Bag;
 import BoardStructure.Board;
 import BoardStructure.Rack;
-import IO.BagOutput;
-import IO.BoardOutput;
 import IO.Output;
-import IO.RackOutput;
 
 public class Main {
     public static void main(String[] args) {
