@@ -3,6 +3,7 @@ import BoardStructure.Board;
 import BoardStructure.Rack;
 import IO.BagOutput;
 import IO.BoardOutput;
+import IO.Output;
 import IO.RackOutput;
 
 public class Main {
@@ -11,8 +12,8 @@ public class Main {
         var rack = new Rack();
         var bag = new Bag();
 
-        BoardOutput.printBoard(board);
-        RackOutput.printRack(rack);
-        BagOutput.printBagContents(bag);
+        Output.printBoard(board);
+        Output.printRack(rack);
+        Output.printBag(bag);
     }
 }
