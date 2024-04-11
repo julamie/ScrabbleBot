@@ -12,20 +12,18 @@ class BoardTest {
     }
 
     @Test
-    void setTileOnEmptySquareShouldReturnTrue() {
+    void setTileOnEmptySquareShouldNotThrowException() {
         Board board = new Board();
-        boolean placingResult = board.setTileOnBoard(new Tile('Ä', 6), 3, 4);
 
-        assertTrue(placingResult);
+        assertDoesNotThrow(() -> board.setTileOnBoard(new Tile('Ä', 6), 3, 4));
     }
 
     @Test
-    void setTileOnOccupiedSquareShouldReturnFalse() {
+    void setTileOnOccupiedSquareShouldThrowException() {
         Board board = new Board();
         board.setTileOnBoard(new Tile('Ä', 6), 3, 4);
-        boolean placingResult = board.setTileOnBoard(new Tile('O', 2), 3, 4);
 
-        assertFalse(placingResult);
+        assertThrows(IllegalArgumentException.class, () -> board.setTileOnBoard(new Tile('O', 2), 3, 4));
     }
 
     @Test

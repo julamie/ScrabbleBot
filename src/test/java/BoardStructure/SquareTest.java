@@ -22,27 +22,30 @@ class SquareTest {
     @Test
     public void normalSquareShouldReturnNormalSquareType() {
         Square normalSquare = generateNormalEmptySquare();
+
         assertEquals(SquareType.NORMAL, normalSquare.getType());
     }
 
     @Test void doubleLetterBonusShouldReturnThisAsItsType() {
         Square doubleLetterSquare = new Square(SquareType.LETTER_BONUS_DOUBLE);
+
         assertEquals(SquareType.LETTER_BONUS_DOUBLE, doubleLetterSquare.getType());
     }
 
     @Test
-    void occupyEmptySquareShouldReturnTrue() {
+    void occupyEmptySquareShouldNotThrowError() {
         Square emptySquare = generateNormalEmptySquare();
         Tile normalTile = new Tile('G', 3);
-        assertTrue(emptySquare.occupySquare(normalTile));
+
+        assertDoesNotThrow(() -> emptySquare.occupySquare(normalTile));
     }
 
     @Test
-    void occupyAlreadyOccupiedSquareShouldReturnFalse() {
+    void occupyAlreadyOccupiedSquareShouldThrowException() {
         Square occupiedSquare = generateNormalOccupiedSquare();
         Tile secondTile = new Tile('B', 2);
 
-        assertFalse(occupiedSquare.occupySquare(secondTile));
+        assertThrows(IllegalArgumentException.class, () -> occupiedSquare.occupySquare(secondTile));
     }
 
     @Test

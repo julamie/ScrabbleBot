@@ -9,11 +9,10 @@ public class Square {
         this.type = type;
     }
 
-    public boolean occupySquare(Tile tile) {
-        if (isOccupied()) return false;
+    public void occupySquare(Tile tile) {
+        if (isOccupied()) throw new IllegalArgumentException("Can't occupy already occupied square");
 
         this.tile = tile;
-        return true;
     }
 
     public boolean isOccupied() {
