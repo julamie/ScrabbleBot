@@ -124,47 +124,57 @@ public class Board {
         return currSquare.occupySquare(tile);
     }
 
-    public boolean setTilesOnBoardHorizontally(Tile[] word, int row, int startingCol) {
-        if (!canWordFitOnBoardHorizontally(word, row, startingCol)) return false;
-
-        for (int i = 0; i < word.length; i++) {
-            int currCol = startingCol + i;
-            Square currSquare = getSquareAtPos(row, currCol);
-            currSquare.occupySquare(word[i]);
-        }
-
-        return true;
-    }
-
-    public boolean setTilesOnBoardVertically(Tile[] word, int startingRow, int col) {
-        if (!canWordFitOnBoardVertically(word, startingRow, col)) return false;
-
-        for (int i = 0; i < word.length; i++) {
-            int currRow = startingRow + i;
-            Square currSquare = getSquareAtPos(currRow, col);
-            currSquare.occupySquare(word[i]);
-        }
-
-        return true;
-    }
-
-    public boolean canWordFitOnBoardHorizontally(Tile[] word, int row, int startingCol) {
-        for (int i = 0; i < word.length; i++) {
-            int currCol = startingCol + i;
-            if (getSquareAtPos(row, currCol).isOccupied()) return false;
-        }
-
-        return true;
-    }
-
-    public boolean canWordFitOnBoardVertically(Tile[] word, int startingRow, int col) {
-        for (int i = 0; i < word.length; i++) {
-            int currRow = startingRow + i;
-            if (getSquareAtPos(currRow, col).isOccupied()) return false;
-        }
-
-        return true;
-    }
+//    public boolean setTilesOnBoardHorizontally(Tile[] word, int row, int startingCol) {
+//        if (!canWordFitOnBoardHorizontally(word, row, startingCol)) return false;
+//
+//        for (int i = 0; i < word.length; i++) {
+//            int currCol = startingCol + i;
+//            Square currSquare = getSquareAtPos(row, currCol);
+//            currSquare.occupySquare(word[i]);
+//        }
+//
+//        return true;
+//    }
+//
+//    public boolean setTilesOnBoardVertically(Tile[] word, int startingRow, int col) {
+//        if (!canWordFitOnBoardVertically(word, startingRow, col)) return false;
+//
+//        for (int i = 0; i < word.length; i++) {
+//            int currRow = startingRow + i;
+//            Square currSquare = getSquareAtPos(currRow, col);
+//            currSquare.occupySquare(word[i]);
+//        }
+//
+//        return true;
+//    }
+//
+//    private boolean isTileValidOnSquare(Square square, Tile tile) {
+//        return !square.isOccupied() || square.getLetter() == tile.getLetter();
+//    }
+//
+//    private boolean canWordFitOnBoardHorizontally(Tile[] word, int row, int startingCol) {
+//        for (int i = 0; i < word.length; i++) {
+//            int currCol = startingCol + i;
+//            Square currSquare = getSquareAtPos(row, currCol);
+//            Tile currTile = word[i];
+//
+//            if (!isTileValidOnSquare(currSquare, currTile)) return false;
+//        }
+//
+//        return true;
+//    }
+//
+//    private boolean canWordFitOnBoardVertically(Tile[] word, int startingRow, int col) {
+//        for (int i = 0; i < word.length; i++) {
+//            int currRow = startingRow + i;
+//            Square currSquare = getSquareAtPos(currRow, col);
+//            Tile currTile = word[i];
+//
+//            if (!isTileValidOnSquare(currSquare, currTile)) return false;
+//        }
+//
+//        return true;
+//    }
 
     public boolean isOccupiedAtPos(int row, int col) {
         return getSquareAtPos(row, col).isOccupied();
