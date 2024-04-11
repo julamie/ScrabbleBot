@@ -5,7 +5,7 @@ import BoardStructure.Square;
 
 public class BoardOutput {
 
-    private static StringBuilder getRowInformation(Board board, int row) {
+    private static StringBuilder getSquareRowOutput(Board board, int row) {
         StringBuilder topLineOfRow = new StringBuilder();
         StringBuilder bottomLineOfRow = new StringBuilder();
 
@@ -21,14 +21,14 @@ public class BoardOutput {
         return topLineOfRow.append('\n').append(bottomLineOfRow);
     }
 
-    public static void printBoard(Board board) {
-        StringBuilder outputString = new StringBuilder();
+    public static StringBuilder[] getBoardOutputLines(Board board) {
+        StringBuilder[] lines = new StringBuilder[board.getSize()];
 
         for (int row = 0; row < board.getSize(); row++) {
-            outputString.append(getRowInformation(board, row)).append('\n');
+            lines[row] = getSquareRowOutput(board, row);
         }
 
-        System.out.println(outputString);
+        return lines;
     }
 
 }

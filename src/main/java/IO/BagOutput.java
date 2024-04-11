@@ -3,10 +3,12 @@ package IO;
 import BoardStructure.Bag;
 import BoardStructure.Tile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class BagOutput {
+
     private static StringBuilder getTileRowOfSameLetter(char letter, int value, int numRepetitions) {
         StringBuilder output = new StringBuilder();
         StringBuilder upperLine = new StringBuilder();
@@ -26,37 +28,25 @@ public class BagOutput {
         return output;
     }
 
-    public static void printBagContents(Bag bag) {
-        StringBuilder output = new StringBuilder();
+    public static StringBuilder[] getBagOutputLines(Bag bag) {
+        ArrayList<StringBuilder> lines = new ArrayList<>();
 
         HashMap<Character, Integer> startingDistribution = bag.getLetterDistribution();
         HashMap<Character, Integer> letterValues = bag.getLetterValues();
         HashMap<Character, Integer> bagDistribution = bag.getRemainingLetterDistribution();
 
-        // display remaining normal letters
-        for (char letter = 'A'; letter <= 'Z'; letter++) {
+        char[] tileLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ?".toCharArray();
+        for (char letter : tileLetters) {
             int letterValue = letterValues.get(letter);
             int numRepetitions = bagDistribution.getOrDefault(letter, 0);
 
-            // skip letters that don't exist anymore
+            // skip letters that aren't in the bag anymore
             if (numRepetitions == 0) continue;
 
-            output.append(getTileRowOfSameLetter(letter, letterValue, numRepetitions));
-            output.append('\n');
+            StringBuilder tileRow = getTileRowOfSameLetter(letter, letterValue, numRepetitions);
+            lines.add(tileRow);
         }
 
-        char[] specialChars = {'Ä', 'Ö', 'Ü', '?'};
-        for (char letter : specialChars) {
-            int letterValue = letterValues.get(letter);
-            int numRepetitions = bagDistribution.getOrDefault(letter, 0);
-
-            if (numRepetitions == 0) continue;
-
-            output.append(getTileRowOfSameLetter(letter, letterValue, numRepetitions));
-            output.append('\n');
-        }
-
-        System.out.println(output);
+        return lines.toArray(new StringBuilder[0]);
     }
-
 }

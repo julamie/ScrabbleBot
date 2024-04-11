@@ -3,8 +3,8 @@ package IO;
 import BoardStructure.Tile;
 
 public class TileOutput {
-    private static final String RESET = "\u001B[0;1m"; // no background, bold letters
-    private static final String CREAM_BG = "\033[48;2;238;221;187;30m"; // black letters
+    private static final String RESET = "\u001B[0m"; // no background
+    private static final String CREAM_BG = "\033[48;2;238;221;187;30;1m"; // black, bold letters
 
     private static StringBuilder getUpperLineOfTile(Tile tile) {
         StringBuilder output = new StringBuilder(CREAM_BG);
@@ -32,11 +32,5 @@ public class TileOutput {
         };
 
         return lines;
-    }
-
-    public static void printTile(Tile tile) {
-        StringBuilder[] lines = getTileOutputLines(tile);
-
-        System.out.println(lines[0] + "\n" + lines[1]);
     }
 }

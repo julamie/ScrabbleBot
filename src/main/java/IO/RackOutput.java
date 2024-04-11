@@ -5,7 +5,7 @@ import BoardStructure.Tile;
 
 public class RackOutput {
 
-    public static void printRack(Rack rack) {
+    public static StringBuilder[] getRackOutputLines(Rack rack) {
         StringBuilder upperLine = new StringBuilder();
         StringBuilder lowerLine = new StringBuilder();
 
@@ -17,7 +17,11 @@ public class RackOutput {
             lowerLine.append(tileLines[1]).append(' ');
         }
 
-        String output = upperLine.toString() + '\n' + lowerLine + '\n';
-        System.out.println(output);
+        StringBuilder[] lines = {
+                upperLine,
+                lowerLine
+        };
+
+        return lines;
     }
 }

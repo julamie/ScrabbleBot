@@ -6,11 +6,11 @@ import BoardStructure.Tile;
 
 public class SquareOutput {
 
-    private static final String RESET = "\u001B[0;1m"; // no background, bold letters
-    public static final String PINK_PG = "\u001B[48;2;229;181;179;37m"; // gray letters
-    public static final String RED_BG = "\u001B[48;2;234;56;32;90m"; // dark gray letters
-    public static final String LIGHT_BLUE_BG = "\u001B[48;2;175;203;239;37m"; // gray letters
-    public static final String BLUE_BG = "\u001B[48;2;10;143;223;90m"; // dark gray letters
+    private static final String RESET = "\u001B[0m"; // no background, bold letters
+    public static final String PINK_PG = "\u001B[48;2;229;181;179;37;1m"; // gray letters
+    public static final String RED_BG = "\u001B[48;2;234;56;32;90;1m"; // dark gray letters
+    public static final String LIGHT_BLUE_BG = "\u001B[48;2;175;203;239;37;1m"; // gray letters
+    public static final String BLUE_BG = "\u001B[48;2;10;143;223;90;1m"; // dark gray letters
 
     private static StringBuilder getUpperLineOfEmptySquare(Square square) {
         StringBuilder line = new StringBuilder();
@@ -101,11 +101,5 @@ public class SquareOutput {
         };
 
         return lines;
-    }
-
-    public static void printSquare(Square square) {
-        StringBuilder[] lines = getSquareOutputLines(square);
-
-        System.out.println(lines[0] + "\n" + lines[1]);
     }
 }
