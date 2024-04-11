@@ -14,22 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RackOutputTest {
 
     private Rack rack;
-    private final ByteArrayOutputStream savedOutput = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
 
     public RackOutputTest() {
         this.rack = createTestRack();
-    }
-
-    @BeforeEach
-    public void redirectTerminalOutputToObject() {
-        System.setOut(new PrintStream(savedOutput));
-        RackOutput.printRack(this.rack);
-    }
-
-    @AfterEach
-    public void restoreOriginalOutputStream() {
-        System.setOut(originalOut);
     }
 
     private Rack createTestRack() {
@@ -40,7 +27,8 @@ class RackOutputTest {
                 new Tile('R', 1),
                 new Tile('Ü', 6),
                 new Tile('?', 0),
-                new Tile('E', 1)
+                new Tile('E', 1),
+                new Tile('Y', 10)
         };
         rack.addTilesToRack(newTiles);
 
@@ -54,12 +42,12 @@ class RackOutputTest {
     }
 
     @Test
-    public void rackWith6TilesShouldBeSixTilesWide() {
-        String[] rackLines = savedOutput.toString().split("\n");
+    public void rackWithSevenTilesShouldBeSevenTilesWide() {
+        StringBuilder[] rackLines = RackOutput.getRackOutputLines(this.rack);
 
-        int rackWidthExpected = 6 * 5 + 6; // 6 tiles with width 5 plus 6 spaces
-        int rackTopWidthActual = getStringLengthWithoutANSI(rackLines[0]);
-        int rackBottomWidthActual = getStringLengthWithoutANSI(rackLines[1]);
+        int rackWidthExpected = 7 * 5 + 7; // 7 tiles with width 5 plus 7 spaces
+        int rackTopWidthActual = getStringLengthWithoutANSI(rackLines[0].toString());
+        int rackBottomWidthActual = getStringLengthWithoutANSI(rackLines[1].toString());
 
         assertEquals(rackWidthExpected, rackTopWidthActual);
         assertEquals(rackWidthExpected, rackBottomWidthActual);
@@ -67,7 +55,8 @@ class RackOutputTest {
 
     @Test
     public void rackShouldBeOfHeightTwo() {
-        String[] rackLines = savedOutput.toString().split("\n");
-        assertEquals(2 + 1, rackLines.length); // 2 lines and one empty line
+        StringBuilder[] rackLines = RackOutput.getRackOutputLines(this.rack);
+
+        assertEquals(2, rackLines.length);
     }
 }

@@ -14,22 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardOutputTest {
 
     private Board board;
-    private final ByteArrayOutputStream savedOutput = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
 
     public BoardOutputTest() {
         this.board = createTestBoard();
-    }
-
-    @BeforeEach
-    public void redirectTerminalOutputToObject() {
-        System.setOut(new PrintStream(savedOutput));
-        BoardOutput.printBoard(this.board);
-    }
-
-    @AfterEach
-    public void restoreOriginalOutputStream() {
-        System.setOut(originalOut);
     }
 
     private Board createTestBoard() {
@@ -81,14 +68,15 @@ class BoardOutputTest {
 
     @Test
     public void printedBoardShouldBe15SquaresWideEverywhere() {
-        int boardHeight = 15 * 2; // 15 squares with height 2
+        int boardHeight = 15; // 15 squares with height 2
         int[] boardWidthExpected = new int[boardHeight];
         int[] boardWidthActual = new int[boardHeight];
 
-        String[] boardLines = savedOutput.toString().split("\n");
+        StringBuilder[] boardLines = BoardOutput.getBoardOutputLines(this.board);
         for (int i = 0; i < boardHeight; i++) {
-            boardWidthExpected[i] = 15 * 5; // 15 squares with square width of 5 chars
-            boardWidthActual[i] = getStringLengthWithoutANSI(boardLines[i]);
+            // Square row width = numSquares * squareWidth * tileHeight + one newLine
+            boardWidthExpected[i] = 15 * 5 * 2 + 1;
+            boardWidthActual[i] = getStringLengthWithoutANSI(boardLines[i].toString());
         }
 
         // check width dimensions
@@ -97,7 +85,8 @@ class BoardOutputTest {
 
     @Test
     public void printedBoardShouldBe15SquaresHighEverywhere() {
-        String[] boardLines = savedOutput.toString().split("\n");
-        assertEquals(15 * 2 + 1, boardLines.length); // 15 squares with height 2 plus one empty line
+        StringBuilder[] boardLines = BoardOutput.getBoardOutputLines(this.board);
+
+        assertEquals(15, boardLines.length);
     }
 }
