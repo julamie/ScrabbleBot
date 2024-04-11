@@ -1,47 +1,26 @@
 package IO;
 
 import BoardStructure.Bag;
+import BoardStructure.Tile;
+
 import java.util.HashMap;
 
 
 public class BagOutput {
-
-    private static final String RESET = "\u001B[0;1m"; // no background, bold letters
-    public static final String CREAM_BG = "\033[48;2;238;221;187;30m"; // black letters
-
-    private static StringBuilder getUpperLineOfRow(char letter, int numRepetitions) {
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < numRepetitions; i++) {
-            output.append(CREAM_BG).append("  ").append(letter).append("  ");
-            output.append(RESET).append(" ");
-        }
-        return output;
-    }
-
-    private static StringBuilder getLowerLineOfRow(int value, int numRepetitions) {
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < numRepetitions; i++) {
-            output.append(CREAM_BG);
-
-            if (value == 0) {
-                output.append("     ");
-            } else if (value >= 10) {
-                output.append("   ");
-                output.append(value);
-            } else {
-                output.append("    ");
-                output.append(value);
-            }
-            output.append(RESET).append(" ");
-        }
-
-        return output;
-    }
-
     private static StringBuilder getTileRowOfSameLetter(char letter, int value, int numRepetitions) {
         StringBuilder output = new StringBuilder();
-        StringBuilder upperLine = getUpperLineOfRow(letter, numRepetitions);
-        StringBuilder lowerLine = getLowerLineOfRow(value, numRepetitions);
+        StringBuilder upperLine = new StringBuilder();
+        StringBuilder lowerLine = new StringBuilder();
+
+        Tile dummyTile = new Tile(letter, value);
+        StringBuilder[] tileLines = TileOutput.getTileOutputLines(dummyTile);
+
+        // repeat the same letter to respective lines
+        for (int i = 0; i < numRepetitions; i++) {
+            upperLine.append(tileLines[0]);
+            lowerLine.append(tileLines[1]);
+        }
+
         output.append(upperLine).append('\n').append(lowerLine);
 
         return output;
