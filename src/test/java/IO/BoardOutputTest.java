@@ -8,12 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardOutputTest {
 
-    private Board board;
     private StringBuilder[] boardLines;
 
     public BoardOutputTest() {
-        this.board = createTestBoard();
-        this.boardLines = BoardOutput.getBoardOutputLines(this.board);
+        Board board = createTestBoard();
+        this.boardLines = BoardOutput.getBoardOutputLines(board);
     }
 
     private Board createTestBoard() {

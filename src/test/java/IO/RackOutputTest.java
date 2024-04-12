@@ -9,13 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RackOutputTest {
 
-    private Rack rack;
     private StringBuilder[] rackLines;
 
     @BeforeEach
     void setup() {
-        this.rack = createTestRack();
-        this.rackLines = RackOutput.getRackOutputLines(this.rack);
+        Rack rack = createTestRack();
+        this.rackLines = RackOutput.getRackOutputLines(rack);
     }
 
     private Rack createTestRack() {
