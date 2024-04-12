@@ -1,45 +1,43 @@
 package BoardStructure;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     private Board board;
+    private Tile exampleTile;
 
-    public BoardTest() {
+    @BeforeEach
+    void setup() {
         this.board = new Board();
+        this.exampleTile = new Tile('Ä', 6);
     }
 
     @Test
     void setTileOnEmptySquareShouldNotThrowException() {
-        Board board = new Board();
-
-        assertDoesNotThrow(() -> board.setTileOnBoard(new Tile('Ä', 6), 3, 4));
+        assertDoesNotThrow(() -> this.board.setTileOnBoard(this.exampleTile, 3, 4));
     }
 
     @Test
     void setTileOnOccupiedSquareShouldThrowException() {
-        Board board = new Board();
-        board.setTileOnBoard(new Tile('Ä', 6), 3, 4);
+        this.board.setTileOnBoard(this.exampleTile, 3, 4);
 
-        assertThrows(IllegalArgumentException.class, () -> board.setTileOnBoard(new Tile('O', 2), 3, 4));
+        assertThrows(IllegalArgumentException.class, () -> this.board.setTileOnBoard(new Tile('O', 2), 3, 4));
     }
 
     @Test
     void getSquareAtCorrectPositionShouldReturnASquare() {
-        Board board = new Board();
-        board.setTileOnBoard(new Tile('W', 4), 0, 12);
-        Square returnedSquare = board.getSquareAtPos(0, 12);
+        this.board.setTileOnBoard(this.exampleTile, 0, 12);
+        Square returnedSquare = this.board.getSquareAtPos(0, 12);
 
         assertEquals(Square.class, returnedSquare.getClass());
-
     }
 
     @Test
     void getSquareAtIncorrectPositionShouldReturnIndexOutOfBoundsException() {
-        Board board = new Board();
-        assertThrows(IndexOutOfBoundsException.class, () -> board.getSquareAtPos(15, 4));
+        assertThrows(IndexOutOfBoundsException.class, () -> this.board.getSquareAtPos(15, 4));
     }
 
     @Test
@@ -49,13 +47,13 @@ class BoardTest {
 
     @Test
     void UnoccupiedSquareShouldReturnFalseBecauseItsNotOccupied() {
-        assertFalse(board.isOccupiedAtPos(2, 2));
+        assertFalse(this.board.isOccupiedAtPos(2, 2));
     }
 
     @Test
     void OccupiedSquareShouldReturnTrueIfBecauseItsOccupied() {
-        board.setTileOnBoard(new Tile('X', 8), 4, 12);
-        assertTrue(board.isOccupiedAtPos(4, 12));
+        this.board.setTileOnBoard(this.exampleTile, 4, 12);
+        assertTrue(this.board.isOccupiedAtPos(4, 12));
     }
 
 }

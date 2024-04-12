@@ -3,24 +3,33 @@ package IO;
 import BoardStructure.Square;
 import BoardStructure.SquareType;
 import BoardStructure.Tile;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SquareOutputTest {
 
-    private final Square emptySquare, occupiedSquare;
-    private final Square doubleLetterSquare, tripleLetterSquare;
-    private final Square doubleWordSquare, tripleWordSquare;
+    private StringBuilder[][] squareLinesPerType;
 
-    public SquareOutputTest() {
-        this.emptySquare = new Square(SquareType.NORMAL);
-        this.occupiedSquare = new Square(SquareType.NORMAL);
-        this.occupiedSquare.occupySquare(new Tile('E', 1));
-        this.doubleLetterSquare = new Square(SquareType.LETTER_BONUS_DOUBLE);
-        this.tripleLetterSquare = new Square(SquareType.LETTER_BONUS_TRIPLE);
-        this.doubleWordSquare = new Square(SquareType.WORD_BONUS_DOUBLE);
-        this.tripleWordSquare = new Square(SquareType.WORD_BONUS_TRIPLE);
+    @BeforeEach
+    void setup() {
+        Square emptySquare = new Square(SquareType.NORMAL);
+        Square occupiedSquare = new Square(SquareType.NORMAL);
+        occupiedSquare.occupySquare(new Tile('E', 1));
+        Square doubleLetterSquare = new Square(SquareType.LETTER_BONUS_DOUBLE);
+        Square tripleLetterSquare = new Square(SquareType.LETTER_BONUS_TRIPLE);
+        Square doubleWordSquare = new Square(SquareType.WORD_BONUS_DOUBLE);
+        Square tripleWordSquare = new Square(SquareType.WORD_BONUS_TRIPLE);
+
+        this.squareLinesPerType = new StringBuilder[][]{
+                SquareOutput.getSquareOutputLines(emptySquare),
+                SquareOutput.getSquareOutputLines(occupiedSquare),
+                SquareOutput.getSquareOutputLines(doubleLetterSquare),
+                SquareOutput.getSquareOutputLines(tripleLetterSquare),
+                SquareOutput.getSquareOutputLines(doubleWordSquare),
+                SquareOutput.getSquareOutputLines(tripleWordSquare),
+        };
     }
 
     private static int getStringLengthWithoutANSI(String str) {
@@ -31,49 +40,26 @@ class SquareOutputTest {
 
     @Test
     void upperLineOfSquareShouldAlwaysHaveWidth5() {
-        String[] upperLines = {
-                SquareOutput.getSquareOutputLines(emptySquare)[0].toString(),
-                SquareOutput.getSquareOutputLines(occupiedSquare)[0].toString(),
-                SquareOutput.getSquareOutputLines(doubleLetterSquare)[0].toString(),
-                SquareOutput.getSquareOutputLines(tripleLetterSquare)[0].toString(),
-                SquareOutput.getSquareOutputLines(doubleWordSquare)[0].toString(),
-                SquareOutput.getSquareOutputLines(tripleWordSquare)[0].toString(),
-        };
+        for (StringBuilder[] squareLines : this.squareLinesPerType) {
+            String upperLine = squareLines[0].toString();
 
-        for (String line : upperLines) {
-            assertEquals(5, getStringLengthWithoutANSI(line));
+            assertEquals(5, getStringLengthWithoutANSI(upperLine));
         }
     }
 
     @Test
     void lowerLineOfSquareShouldAlwaysHaveWidth5() {
-        String[] lowerLines = {
-                SquareOutput.getSquareOutputLines(emptySquare)[1].toString(),
-                SquareOutput.getSquareOutputLines(occupiedSquare)[1].toString(),
-                SquareOutput.getSquareOutputLines(doubleLetterSquare)[1].toString(),
-                SquareOutput.getSquareOutputLines(tripleLetterSquare)[1].toString(),
-                SquareOutput.getSquareOutputLines(doubleWordSquare)[1].toString(),
-                SquareOutput.getSquareOutputLines(tripleWordSquare)[1].toString(),
-        };
+        for (StringBuilder[] squareLines : this.squareLinesPerType) {
+            String lowerLine = squareLines[1].toString();
 
-        for (String line : lowerLines) {
-            assertEquals(5, getStringLengthWithoutANSI(line));
+            assertEquals(5, getStringLengthWithoutANSI(lowerLine));
         }
     }
 
     @Test
     void printingSquareShouldAlwaysHaveHeightOfTwo() {
-        StringBuilder[][] squareLines = {
-                SquareOutput.getSquareOutputLines(emptySquare),
-                SquareOutput.getSquareOutputLines(occupiedSquare),
-                SquareOutput.getSquareOutputLines(doubleLetterSquare),
-                SquareOutput.getSquareOutputLines(tripleLetterSquare),
-                SquareOutput.getSquareOutputLines(doubleWordSquare),
-                SquareOutput.getSquareOutputLines(tripleWordSquare),
-        };
-
-        for (StringBuilder[] lines : squareLines) {
-            assertEquals(2, lines.length);
+        for (StringBuilder[] squareLines : this.squareLinesPerType) {
+            assertEquals(2, squareLines.length);
         }
     }
 

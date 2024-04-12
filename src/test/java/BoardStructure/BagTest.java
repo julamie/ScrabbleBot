@@ -1,5 +1,6 @@
 package BoardStructure;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -10,57 +11,54 @@ import static org.junit.jupiter.api.Assertions.*;
 class BagTest {
 
     private Bag bag;
+    private Rack rack;
 
-    public BagTest() {
+    @BeforeEach
+    void setup() {
         this.bag = new Bag();
+        this.rack = new Rack();
     }
 
     private void removeAlmostAllTilesFromBag() {
-        Rack rack = new Rack();
         while (this.bag.getSize() > 3) {
-            this.bag.drawTilesFromBagToRack(rack, 1);
-            char letterOnRack = rack.getLettersOnRack()[0];
-            rack.removeTileFromRack(letterOnRack);
+            this.bag.drawTilesFromBagToRack(this.rack, 1);
+            char letterOnRack = this.rack.getLettersOnRack()[0];
+            this.rack.removeTileFromRack(letterOnRack);
         }
     }
 
     @Test
     void drawAllowedAmountOfTilesShouldReturnTrue() {
-        Rack rack = new Rack();
-        assertTrue(this.bag.drawTilesFromBagToRack(rack, 7));
+        assertTrue(this.bag.drawTilesFromBagToRack(this.rack, 7));
     }
 
     @Test
     void drawTooManyTilesAtOnceShouldReturnFalse() {
-        Rack rack = new Rack();
-        assertFalse(this.bag.drawTilesFromBagToRack(rack, 8));
+        assertFalse(this.bag.drawTilesFromBagToRack(this.rack, 8));
     }
 
     @Test
     void drawingFromAlmostEmptyBagShouldReturnLessTilesThanRequested() {
-        Rack rack = new Rack();
         removeAlmostAllTilesFromBag();
-        bag.drawTilesFromBagToRack(rack, 7);
+        bag.drawTilesFromBagToRack(this.rack, 7);
 
         int rackSizeExpected = 3; // empty rack plus remaining 3 tiles from bag
         int bagSizeExpected = 0;
 
-        assertEquals(rackSizeExpected, rack.getSize());
+        assertEquals(rackSizeExpected, this.rack.getSize());
         assertEquals(bagSizeExpected, this.bag.getSize());
     }
 
     @Test
     void exchangingTilesOnAlmostEmptyBagShouldReturnFalse() {
-        Rack rack = new Rack();
         removeAlmostAllTilesFromBag();
 
         Tile[] testTileToExchange = {new Tile('F', 3)};
-        assertFalse(bag.exchangeTiles(rack, testTileToExchange));
+        assertFalse(bag.exchangeTiles(this.rack, testTileToExchange));
     }
 
     @Test
     void afterExchangingTilesTheNumberOfTilesInBagAndRackShouldBeTheSameAsBefore() {
-        Rack rack = new Rack();
         Tile[] newTiles = {
                 new Tile('A', 1),
                 new Tile('B', 3),
@@ -69,20 +67,20 @@ class BagTest {
                 new Tile('?', 0),
                 new Tile('A', 1)
         };
-        rack.addTilesToRack(newTiles);
+        this.rack.addTilesToRack(newTiles);
 
         int bagSizePrev = this.bag.getSize();
-        int rackSizePrev = rack.getSize();
+        int rackSizePrev = this.rack.getSize();
 
         Tile[] tilesToExchange = {
-                rack.removeTileFromRack('A'),
-                rack.removeTileFromRack('R'),
-                rack.removeTileFromRack('Ü')
+                this.rack.removeTileFromRack('A'),
+                this.rack.removeTileFromRack('R'),
+                this.rack.removeTileFromRack('Ü')
         };
 
-        assertTrue(this.bag.exchangeTiles(rack, tilesToExchange));
+        assertTrue(this.bag.exchangeTiles(this.rack, tilesToExchange));
         assertEquals(bagSizePrev, this.bag.getSize());
-        assertEquals(rackSizePrev, rack.getSize());
+        assertEquals(rackSizePrev, this.rack.getSize());
     }
 
     @Test
@@ -131,7 +129,7 @@ class BagTest {
     @Test
     void isEmptyShouldReturnTrueInAnEmptyBag() {
         removeAlmostAllTilesFromBag();
-        this.bag.drawTilesFromBagToRack(new Rack(), 3);
+        this.bag.drawTilesFromBagToRack(this.rack, 3);
         assertTrue(this.bag.isEmpty());
     }
 }

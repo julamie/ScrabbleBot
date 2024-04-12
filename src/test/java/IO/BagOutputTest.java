@@ -1,11 +1,19 @@
 package IO;
 
 import BoardStructure.Bag;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BagOutputTest {
+
+    private Bag bag;
+
+     @BeforeEach
+     void setup() {
+         this.bag = new Bag();
+     }
 
     private static int getStringLengthWithoutANSI(String str) {
         // String length doesn't work well if ANSI Escape Codes for coloured terminal output is used
@@ -15,16 +23,14 @@ class BagOutputTest {
 
     @Test
     void newBagHasAll30TilesDisplayed() {
-        Bag bag = new Bag();
-        StringBuilder[] lines = BagOutput.getBagOutputLines(bag);
+        StringBuilder[] lines = BagOutput.getBagOutputLines(this.bag);
 
         assertEquals(30, lines.length);
     }
 
     @Test
     void newBagShouldHave15ETiles() {
-        Bag bag = new Bag();
-        StringBuilder[] lines = BagOutput.getBagOutputLines(bag);
+        StringBuilder[] lines = BagOutput.getBagOutputLines(this.bag);
         String eLine = lines[4].toString();
 
         // E-Tile row width = numOfE * TileWidth * tileHeight + one newLine

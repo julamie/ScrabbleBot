@@ -9,9 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardOutputTest {
 
     private Board board;
+    private StringBuilder[] boardLines;
 
     public BoardOutputTest() {
         this.board = createTestBoard();
+        this.boardLines = BoardOutput.getBoardOutputLines(this.board);
     }
 
     private Board createTestBoard() {
@@ -67,11 +69,10 @@ class BoardOutputTest {
         int[] boardWidthExpected = new int[boardHeight];
         int[] boardWidthActual = new int[boardHeight];
 
-        StringBuilder[] boardLines = BoardOutput.getBoardOutputLines(this.board);
         for (int i = 0; i < boardHeight; i++) {
             // Square row width = numSquares * squareWidth * tileHeight + one newLine
             boardWidthExpected[i] = 15 * 5 * 2 + 1;
-            boardWidthActual[i] = getStringLengthWithoutANSI(boardLines[i].toString());
+            boardWidthActual[i] = getStringLengthWithoutANSI(this.boardLines[i].toString());
         }
 
         // check width dimensions
@@ -80,8 +81,6 @@ class BoardOutputTest {
 
     @Test
     public void printedBoardShouldBe15SquaresHighEverywhere() {
-        StringBuilder[] boardLines = BoardOutput.getBoardOutputLines(this.board);
-
-        assertEquals(15, boardLines.length);
+        assertEquals(15, this.boardLines.length);
     }
 }

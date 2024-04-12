@@ -2,6 +2,7 @@ package IO;
 
 import BoardStructure.Rack;
 import BoardStructure.Tile;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,9 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RackOutputTest {
 
     private Rack rack;
+    private StringBuilder[] rackLines;
 
-    public RackOutputTest() {
+    @BeforeEach
+    void setup() {
         this.rack = createTestRack();
+        this.rackLines = RackOutput.getRackOutputLines(this.rack);
     }
 
     private Rack createTestRack() {
@@ -38,11 +42,10 @@ class RackOutputTest {
 
     @Test
     public void rackWithSevenTilesShouldBeSevenTilesWide() {
-        StringBuilder[] rackLines = RackOutput.getRackOutputLines(this.rack);
 
         int rackWidthExpected = 7 * 5 + 7; // 7 tiles with width 5 plus 7 spaces
-        int rackTopWidthActual = getStringLengthWithoutANSI(rackLines[0].toString());
-        int rackBottomWidthActual = getStringLengthWithoutANSI(rackLines[1].toString());
+        int rackTopWidthActual = getStringLengthWithoutANSI(this.rackLines[0].toString());
+        int rackBottomWidthActual = getStringLengthWithoutANSI(this.rackLines[1].toString());
 
         assertEquals(rackWidthExpected, rackTopWidthActual);
         assertEquals(rackWidthExpected, rackBottomWidthActual);
@@ -50,8 +53,6 @@ class RackOutputTest {
 
     @Test
     public void rackShouldBeOfHeightTwo() {
-        StringBuilder[] rackLines = RackOutput.getRackOutputLines(this.rack);
-
-        assertEquals(2, rackLines.length);
+        assertEquals(2, this.rackLines.length);
     }
 }
