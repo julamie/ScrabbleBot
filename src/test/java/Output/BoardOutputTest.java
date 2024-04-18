@@ -64,14 +64,18 @@ class BoardOutputTest {
 
     @Test
     public void printedBoardShouldBe15SquaresWideEverywhere() {
-        int boardHeight = 15; // 15 squares with height 2
+        int boardHeight = 15;
         int[] boardWidthExpected = new int[boardHeight];
         int[] boardWidthActual = new int[boardHeight];
 
+        // coordinate line width = rowLineWidth + numSquares * squareWidth + rowLineWidth
+        assertEquals(3 + 15 * 5 + 3, this.boardLines[0].toString().length());
+        assertEquals(3 + 15 * 5 + 3, this.boardLines[16].toString().length());
+
         for (int i = 0; i < boardHeight; i++) {
-            // Square row width = numSquares * squareWidth * tileHeight + one newLine
-            boardWidthExpected[i] = 15 * 5 * 2 + 1;
-            boardWidthActual[i] = getStringLengthWithoutANSI(this.boardLines[i].toString());
+            // Square row width = rowLineWidth + numSquares * squareWidth * tileHeight + rowLineWidth + one newLine
+            boardWidthExpected[i] = 2 * 3 + 15 * 5 * 2 + 2 * 3 + 1;
+            boardWidthActual[i] = getStringLengthWithoutANSI(this.boardLines[i + 1].toString());
         }
 
         // check width dimensions
@@ -79,7 +83,7 @@ class BoardOutputTest {
     }
 
     @Test
-    public void printedBoardShouldBe15SquaresHighEverywhere() {
-        assertEquals(15, this.boardLines.length);
+    public void printedBoardShouldHave17Lines() {
+        assertEquals(15 + 2, this.boardLines.length); // square lines plus two letter coordinate lines
     }
 }
