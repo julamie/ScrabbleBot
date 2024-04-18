@@ -22,8 +22,18 @@ public class Rack {
     public Tile removeTileFromRack(char letter) {
         // remove exactly one tile with the correct letter
         for (int i = 0; i < this.tileRack.size(); i++) {
-            if (this.tileRack.get(i).getLetter() != letter) continue;
+            char currLetter = this.tileRack.get(i).getLetter();
+            if (currLetter != letter) continue;
 
+            return this.tileRack.remove(i);
+        }
+
+        // remove blank tile if there is one
+        for (int i = 0; i < this.tileRack.size(); i++) {
+            Tile currTile = this.tileRack.get(i);
+            if (!currTile.isBlank()) continue;
+
+            currTile.setLetter(letter); // TODO: Should rack change the letter value of a blank tile?
             return this.tileRack.remove(i);
         }
 

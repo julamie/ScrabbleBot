@@ -50,7 +50,15 @@ class RackTest {
     }
 
     @Test
+    void removingNotExistingLetterShouldReturnRenamedBlankIfThereIsOne() {
+        Tile removedTile = this.rack.removeTileFromRack('X');
+        assertTrue(removedTile.getValue() == 0);
+        assertEquals('X', removedTile.getLetter());
+    }
+
+    @Test
     void removingNotExistingTileShouldThrowAnException() {
+        this.rack.removeTileFromRack('?');
         assertThrows(IllegalArgumentException.class, () -> this.rack.removeTileFromRack('F'));
     }
 
