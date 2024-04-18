@@ -1,4 +1,4 @@
-package IO;
+package Output;
 
 import BoardStructure.Board;
 import BoardStructure.Square;

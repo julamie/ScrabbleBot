@@ -1,64 +1,21 @@
-package IO;
+package Output;
 
-import BoardStructure.*;
+import BoardStructure.Board;
+import BoardStructure.Tile;
 import org.junit.jupiter.api.Test;
 
-class OutputTest {
-    @Test
-    void printAllTileTypes() {
-        Tile normalTile = new Tile('E', 1);
-        Tile doubleDigitTile = new Tile('Q', 10);
-        Tile blankTile = new Tile('?', 0);
+import static org.junit.jupiter.api.Assertions.*;
 
-        Output.printTile(normalTile);
-        Output.printTile(doubleDigitTile);
-        Output.printTile(blankTile);
+class BoardOutputTest {
+
+    private StringBuilder[] boardLines;
+
+    public BoardOutputTest() {
+        Board board = createTestBoard();
+        this.boardLines = BoardOutput.getBoardOutputLines(board);
     }
 
-    @Test
-    void printAllSquareTypes() {
-        Square emptySquare = new Square(SquareType.NORMAL);
-        Square occupiedSquare = new Square(SquareType.NORMAL);
-        occupiedSquare.occupySquare(new Tile('Y', 10));
-        Square doubleLetterSquare = new Square(SquareType.LETTER_BONUS_DOUBLE);
-        Square tripleLetterSquare = new Square(SquareType.LETTER_BONUS_TRIPLE);
-        Square doubleWordSquare = new Square(SquareType.WORD_BONUS_DOUBLE);
-        Square tripleWordSquare = new Square(SquareType.WORD_BONUS_TRIPLE);
-
-        Output.printSquare(emptySquare);
-        Output.printSquare(occupiedSquare);
-        Output.printSquare(doubleLetterSquare);
-        Output.printSquare(tripleLetterSquare);
-        Output.printSquare(doubleWordSquare);
-        Output.printSquare(tripleWordSquare);
-    }
-
-    @Test
-    void printTestRack() {
-        Rack rack = new Rack();
-        Tile[] newTiles = {
-                new Tile('A', 1),
-                new Tile('B', 3),
-                new Tile('R', 1),
-                new Tile('Ü', 6),
-                new Tile('?', 0),
-                new Tile('E', 1),
-                new Tile('Y', 10)
-        };
-        rack.addTilesToRack(newTiles);
-
-        Output.printRack(rack);
-    }
-
-    @Test
-    void printFullBag() {
-        Bag bag = new Bag();
-
-        Output.printBag(bag);
-    }
-
-    @Test
-    void printTestBoard() {
+    private Board createTestBoard() {
         Board board = new Board();
 
         // sets the word 'AXOLOTL' horizontally in the middle of the board
@@ -96,6 +53,33 @@ class OutputTest {
         board.setTileOnBoard(new Tile('T', 1), 10, 1);
         board.setTileOnBoard(new Tile('E', 1), 11, 1);
 
-        Output.printBoard(board);
+        return board;
+    }
+
+    private static int getStringLengthWithoutANSI(String str) {
+        // String length doesn't work well if ANSI Escape Codes for coloured terminal output is used
+        // Source: https://stackoverflow.com/a/64677848
+        return str.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -/]*[@-~]", "").length();
+    }
+
+    @Test
+    public void printedBoardShouldBe15SquaresWideEverywhere() {
+        int boardHeight = 15; // 15 squares with height 2
+        int[] boardWidthExpected = new int[boardHeight];
+        int[] boardWidthActual = new int[boardHeight];
+
+        for (int i = 0; i < boardHeight; i++) {
+            // Square row width = numSquares * squareWidth * tileHeight + one newLine
+            boardWidthExpected[i] = 15 * 5 * 2 + 1;
+            boardWidthActual[i] = getStringLengthWithoutANSI(this.boardLines[i].toString());
+        }
+
+        // check width dimensions
+        assertArrayEquals(boardWidthExpected, boardWidthActual);
+    }
+
+    @Test
+    public void printedBoardShouldBe15SquaresHighEverywhere() {
+        assertEquals(15, this.boardLines.length);
     }
 }

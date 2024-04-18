@@ -1,4 +1,4 @@
-package IO;
+package Output;
 
 import BoardStructure.Bag;
 import org.junit.jupiter.api.BeforeEach;

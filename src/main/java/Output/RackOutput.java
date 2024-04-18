@@ -1,4 +1,4 @@
-package IO;
+package Output;
 
 import BoardStructure.Rack;
 import BoardStructure.Tile;
