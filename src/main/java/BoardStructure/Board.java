@@ -4,6 +4,7 @@ public class Board {
 
     private Square[][] board;
     private int size = 15;
+    private boolean isEmpty = true;
 
     public Board() {
         this.board = new Square[this.size][this.size];
@@ -122,16 +123,33 @@ public class Board {
         Square currSquare = getSquareAtPos(row, col);
 
         currSquare.occupySquare(tile);
+        this.isEmpty = false;
+    }
+
+    public void setTileOnBoard(Tile tile, Coordinates coordinates) {
+        setTileOnBoard(tile, coordinates.row(), coordinates.col());
     }
 
     public boolean isOccupiedAtPos(int row, int col) {
         return getSquareAtPos(row, col).isOccupied();
     }
 
+    public boolean isOccupiedAt(Coordinates coordinates) {
+        return isOccupiedAtPos(coordinates.row(), coordinates.col());
+    }
+
     public Square getSquareAtPos(int row, int col) {
         if (row >= this.size || col >= this.size) throw new IndexOutOfBoundsException();
 
         return this.board[row][col];
+    }
+
+    public Square getSquareAt(Coordinates coordinates) {
+        return getSquareAtPos(coordinates.row(), coordinates.col());
+    }
+
+    public boolean isEmpty() {
+        return this.isEmpty;
     }
 
     public int getSize() {
