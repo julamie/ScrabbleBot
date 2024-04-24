@@ -46,12 +46,12 @@ class BoardTest {
     }
 
     @Test
-    void UnoccupiedSquareShouldReturnFalseBecauseItsNotOccupied() {
+    void unoccupiedSquareShouldReturnFalseBecauseItsNotOccupied() {
         assertFalse(this.board.isOccupiedAtPos(2, 2));
     }
 
     @Test
-    void OccupiedSquareShouldReturnTrueIfBecauseItsOccupied() {
+    void occupiedSquareShouldReturnTrueIfBecauseItsOccupied() {
         this.board.setTileOnBoard(this.exampleTile, 4, 12);
         assertTrue(this.board.isOccupiedAtPos(4, 12));
     }
