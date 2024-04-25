@@ -30,7 +30,43 @@ public class Word {
         };
     }
 
+    public Direction getDirection() {
+        return this.direction;
+    }
+
     public int getLength() {
         return this.word.length;
+    }
+
+    public Character getLetterAtCoordinates(Coordinates coordinates) {
+        int position = 0;
+
+        int firstRow = this.firstLetterCoordinates.row();
+        int firstCol = this.firstLetterCoordinates.col();
+
+        // one coordinate in a word should be the same
+        if (firstRow != coordinates.row() && firstCol != coordinates.col()) return null;
+
+        if (firstRow != coordinates.row()) {
+            position = coordinates.row() - this.firstLetterCoordinates.row();
+        } else {
+            position = coordinates.col() - this.firstLetterCoordinates.col();
+        }
+
+        // position is too far from word or before it
+        if (position < 0 || position >= this.word.length) return null;
+
+        return this.word[position].getLetter();
+    }
+
+    @Override
+    public String toString() {
+        char[] letters = new char[this.word.length];
+
+        for (int i = 0; i < letters.length; i++) {
+            letters[i] = this.word[i].getLetter();
+        }
+
+        return new String(letters);
     }
 }
