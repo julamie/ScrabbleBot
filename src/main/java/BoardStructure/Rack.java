@@ -11,12 +11,8 @@ public class Rack {
         this.tileRack = new ArrayList<Tile>();
     }
 
-    public boolean addTilesToRack(Tile[] tiles) {
-        // don't add tiles if there is no space for it
-        if (this.tileRack.size() + tiles.length > 7) return false;
-
+    public void addTilesToRack(Tile[] tiles) {
         this.tileRack.addAll(Arrays.asList(tiles));
-        return true;
     }
 
     public Tile removeTileFromRack(char letter) {
