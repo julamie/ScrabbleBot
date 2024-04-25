@@ -2,6 +2,7 @@ package BoardStructure;
 
 import java.util.*;
 
+// TODO: Better move some behaviour elsewhere later on
 public class Bag {
 
     private final HashMap<Character, Integer> letterDistribution;
@@ -135,6 +136,14 @@ public class Bag {
         return removedTiles;
     }
 
+    public void fillRack(Rack rack) {
+        // rack should have 7 tiles at the end
+        int numTiles = Math.min(this.bag.size(), 7 - rack.getSize());
+
+        Tile[] removedTiles = removeTiles(numTiles);
+        rack.addTilesToRack(removedTiles);
+    }
+
     public boolean drawTilesFromBagToRack(Rack rack, int numTiles) {
         // you can only draw as many tiles as there are in the bag
         numTiles = Math.min(this.bag.size(), numTiles);
@@ -180,5 +189,18 @@ public class Bag {
 
     public HashMap<Character, Integer> getLetterValues() {
         return this.letterValues;
+    }
+
+    public Tile[] convertWordToTileArray(String wordInput) {
+        HashMap<Character, Integer> letterDistribution = this.letterDistribution;
+        Tile[] word = new Tile[wordInput.length()];
+
+        for (int i = 0; i < wordInput.length(); i++) {
+            char letter = wordInput.charAt(i);
+            Integer value = letterDistribution.get(letter);
+            word[i] = new Tile(letter, value);
+        }
+
+        return word;
     }
 }
