@@ -44,6 +44,14 @@ class TileTest {
     }
 
     @Test
+    void checkIfRenamedBlankTileStillCountsAsABlankTile() {
+        Tile tile = new Tile('?', 0);
+        tile.setLetter('Q');
+
+        assertTrue(tile.isBlank());
+    }
+
+    @Test
     void givingABlankTileALetterShouldBeOkay() {
         Tile blankTile = new Tile('?', 0);
         blankTile.setLetter('E');
