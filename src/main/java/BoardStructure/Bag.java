@@ -1,13 +1,16 @@
 package BoardStructure;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Random;
 
 // TODO: Better move some behaviour elsewhere later on
 public class Bag {
 
     private final HashMap<Character, Integer> letterDistribution;
     private final HashMap<Character, Integer> letterValues;
-    private ArrayList<Tile> bag;
+    private final ArrayList<Tile> bag;
 
     public Bag() {
         this.letterDistribution = generateLetterDistribution();
@@ -123,7 +126,7 @@ public class Bag {
         return tiles;
     }
 
-    private Tile[] removeTiles(int numTiles) {
+    public Tile[] drawTilesFromBag(int numTiles) {
         Random rng = new Random();
         Tile[] removedTiles = new Tile[numTiles];
 
@@ -136,37 +139,8 @@ public class Bag {
         return removedTiles;
     }
 
-    public void fillRack(Rack rack) {
-        // rack should have 7 tiles at the end
-        int numTiles = Math.min(this.bag.size(), 7 - rack.getSize());
-
-        Tile[] removedTiles = removeTiles(numTiles);
-        rack.addTilesToRack(removedTiles);
-    }
-
-    public boolean drawTilesFromBagToRack(Rack rack, int numTiles) {
-        // you can only draw as many tiles as there are in the bag
-        numTiles = Math.min(this.bag.size(), numTiles);
-
-        Tile[] removedTiles = removeTiles(numTiles);
-        return rack.addTilesToRack(removedTiles);
-    }
-
-    public boolean exchangeTiles(Rack rack, Tile[] tilesFromRack) {
-        // you can't exchange letters if there are less than 7 tiles in the bag
-        if (this.bag.size() < 7) return false;
-
-        Tile[] tilesFromBag = removeTiles(tilesFromRack.length);
-        // move new tiles from bag to rack
-        if (!rack.addTilesToRack(tilesFromBag)) return false;
-
-        // put given tiles back to the bag
-        this.bag.addAll(Arrays.asList(tilesFromRack));
-        return true;
-    }
-
-    public int getSize() {
-        return this.bag.size();
+    public void addTilesToBag(Tile[] tiles) {
+        this.bag.addAll(Arrays.asList(tiles));
     }
 
     public HashMap<Character, Integer> getRemainingLetterDistribution() {
@@ -177,6 +151,10 @@ public class Bag {
         }
 
         return currDistribution;
+    }
+
+    public int getSize() {
+        return this.bag.size();
     }
 
     public boolean isEmpty() {
