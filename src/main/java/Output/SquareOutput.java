@@ -91,7 +91,14 @@ public class SquareOutput {
     public static StringBuilder[] getSquareOutputLines(Square square) {
         // use TileOutput to get the output lines of the occupying tile
         if (square.isOccupied()) {
-            Tile dummyTile = new Tile(square.getLetter(), square.getValue());
+            Tile dummyTile;
+            if (square.getValue() == 0) {
+                // if the dummy tile is a renamed blank, create the tile as blank and rename it
+                dummyTile = new Tile('?', square.getValue());
+                dummyTile.setLetter(square.getLetter());
+            } else {
+                dummyTile = new Tile(square.getLetter(), square.getValue());
+            }
             return TileOutput.getTileOutputLines(dummyTile);
         }
 
