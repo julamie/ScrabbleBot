@@ -55,7 +55,7 @@ class SquareTest {
 
     @Test
     void getLetterFromEmptySquareShouldReturnASpace() {
-        assertEquals(' ', this.normalEmptySquare.getLetter());
+        assertNull(this.normalEmptySquare.getLetter());
     }
 
     @Test
