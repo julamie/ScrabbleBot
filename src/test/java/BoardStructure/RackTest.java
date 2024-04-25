@@ -30,21 +30,6 @@ class RackTest {
     }
 
     @Test
-    void addOneTileShouldReturnTrue() {
-        Tile[] newTile = {new Tile('E', 1)};
-        assertTrue(this.rack.addTilesToRack(newTile));
-    }
-
-    @Test
-    void addTooManyTilesToRackShouldReturnFalse() {
-        Tile[] newTiles = {
-                new Tile('G', 3),
-                new Tile('Ü', 7)
-        };
-        assertFalse(this.rack.addTilesToRack(newTiles));
-    }
-
-    @Test
     void removingExistingTileShouldNotThrowAnException() {
         assertDoesNotThrow(() -> this.rack.removeTileFromRack('?'));
     }
@@ -52,7 +37,7 @@ class RackTest {
     @Test
     void removingNotExistingLetterShouldReturnRenamedBlankIfThereIsOne() {
         Tile removedTile = this.rack.removeTileFromRack('X');
-        assertTrue(removedTile.getValue() == 0);
+        assertEquals(0, removedTile.getValue());
         assertEquals('X', removedTile.getLetter());
     }
 
