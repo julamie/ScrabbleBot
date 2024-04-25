@@ -1,5 +1,6 @@
 package Utils;
 
+import BoardStructure.Bag;
 import BoardStructure.Board;
 import BoardStructure.Rack;
 import BoardStructure.Tile;
@@ -68,6 +69,22 @@ public class TestObjects {
         rack.addTilesToRack(newTiles);
 
         return rack;
+    }
+
+    public Bag getTestBag() {
+        Bag bag = new Bag();
+        bag.drawTilesFromBag(bag.getSize());
+        bag.addTilesToBag(new Tile[] {
+                new Tile('E', 1),
+                new Tile('A', 1),
+                new Tile('H', 2),
+                new Tile('F', 4),
+                new Tile('S', 1),
+                new Tile('C', 4),
+                new Tile('K', 4)
+        });
+
+        return bag;
     }
 
 }
