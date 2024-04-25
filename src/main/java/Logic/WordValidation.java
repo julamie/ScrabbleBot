@@ -44,10 +44,10 @@ public class WordValidation {
         Square upperNeighbour = this.board.getUpperNeighbour(coordinates);
         Square lowerNeighbour = this.board.getLowerNeighbour(coordinates);
 
-        if (leftNeighbour  == null || leftNeighbour.isOccupied()) return true;
-        if (rightNeighbour == null || rightNeighbour.isOccupied()) return true;
-        if (upperNeighbour == null || upperNeighbour.isOccupied()) return true;
-        if (lowerNeighbour == null || lowerNeighbour.isOccupied()) return true;
+        if (leftNeighbour  != null && leftNeighbour.isOccupied()) return true;
+        if (rightNeighbour != null && rightNeighbour.isOccupied()) return true;
+        if (upperNeighbour != null && upperNeighbour.isOccupied()) return true;
+        if (lowerNeighbour != null && lowerNeighbour.isOccupied()) return true;
 
         return false;
     }
