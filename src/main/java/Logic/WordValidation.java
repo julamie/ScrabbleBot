@@ -39,13 +39,15 @@ public class WordValidation {
     }
 
     private boolean isTileConnectedToOtherTiles(Coordinates coordinates) {
-        int row = coordinates.row();
-        int col = coordinates.col();
+        Square leftNeighbour  = this.board.getLeftNeighbour(coordinates);
+        Square rightNeighbour = this.board.getRightNeighbour(coordinates);
+        Square upperNeighbour = this.board.getUpperNeighbour(coordinates);
+        Square lowerNeighbour = this.board.getLowerNeighbour(coordinates);
 
-        if (row != 0 && this.board.getSquareAtPos(row - 1, col).isOccupied()) return true;
-        if (row != this.board.getSize() - 1 && this.board.getSquareAtPos(row + 1, col).isOccupied()) return true;
-        if (col != 0 && this.board.getSquareAtPos(row, col - 1).isOccupied()) return true;
-        if (col != this.board.getSize() - 1 && this.board.getSquareAtPos(row, col + 1).isOccupied()) return true;
+        if (leftNeighbour  == null || leftNeighbour.isOccupied()) return true;
+        if (rightNeighbour == null || rightNeighbour.isOccupied()) return true;
+        if (upperNeighbour == null || upperNeighbour.isOccupied()) return true;
+        if (lowerNeighbour == null || lowerNeighbour.isOccupied()) return true;
 
         return false;
     }
