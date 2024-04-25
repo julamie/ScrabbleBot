@@ -5,10 +5,10 @@ import java.util.Arrays;
 
 public class Rack {
 
-    private ArrayList<Tile> tileRack;
+    private final ArrayList<Tile> tileRack;
 
     public Rack() {
-        this.tileRack = new ArrayList<Tile>();
+        this.tileRack = new ArrayList<>();
     }
 
     public void addTilesToRack(Tile[] tiles) {
