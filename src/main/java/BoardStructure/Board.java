@@ -138,6 +138,14 @@ public class Board {
         return isOccupiedAtPos(coordinates.row(), coordinates.col());
     }
 
+    public char getLetterAt(Coordinates coordinates) {
+        return getSquareAt(coordinates).getLetter();
+    }
+
+    public int getValueAt(Coordinates coordinates) {
+        return getSquareAt(coordinates).getValue();
+    }
+
     public Square getSquareAtPos(int row, int col) {
         if (row >= this.size || col >= this.size) throw new IndexOutOfBoundsException();
 
