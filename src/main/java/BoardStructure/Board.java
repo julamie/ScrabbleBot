@@ -2,8 +2,8 @@ package BoardStructure;
 
 public class Board {
 
-    private Square[][] board;
-    private int size = 15;
+    private final Square[][] board;
+    private final int size = 15;
     private boolean isEmpty = true;
 
     public Board() {
@@ -154,6 +154,30 @@ public class Board {
 
     public Square getSquareAt(Coordinates coordinates) {
         return getSquareAtPos(coordinates.row(), coordinates.col());
+    }
+
+    public Square getLeftNeighbour(Coordinates coordinates) {
+        if (coordinates.getLeft() == null) return null;
+
+        return getSquareAt(coordinates.getLeft());
+    }
+
+    public Square getRightNeighbour(Coordinates coordinates) {
+        if (coordinates.getRight().col() >= this.size) return null;
+
+        return getSquareAt(coordinates.getRight());
+    }
+
+    public Square getUpperNeighbour(Coordinates coordinates) {
+        if (coordinates.getUpper() == null) return null;
+
+        return getSquareAt(coordinates.getUpper());
+    }
+
+    public Square getLowerNeighbour(Coordinates coordinates) {
+        if (coordinates.getLower().row() >= this.size) return null;
+
+        return getSquareAt(coordinates.getLower());
     }
 
     public boolean isEmpty() {
