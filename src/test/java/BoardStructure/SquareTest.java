@@ -65,7 +65,7 @@ class SquareTest {
 
     @Test
     void getValueFromEmptySquareShouldReturnMinusOne() {
-        assertEquals(-1, this.normalEmptySquare.getValue());
+        assertNull(this.normalEmptySquare.getValue());
     }
 
     @Test
