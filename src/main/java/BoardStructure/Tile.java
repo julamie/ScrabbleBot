@@ -4,16 +4,18 @@ public class Tile {
 
     private char letter;
     private int value;
+    private boolean isBlank;
 
     public Tile(char letter, int value) {
+        this.isBlank = letter == '?';
         if (!checkTile(letter, value)) throw new IllegalArgumentException("Illegal arguments used for Tiles.");
 
-        if (!isBlank()) this.letter = Character.toUpperCase(letter);
+        this.letter = Character.toUpperCase(letter);
         this.value = value;
     }
 
     private boolean checkTile(char letter, int value) {
-        if (letter == '?') return value == 0;
+        if (this.isBlank) return value == 0;
 
         return Character.isLetter(letter) && value > 0;
     }
@@ -27,11 +29,11 @@ public class Tile {
     }
 
     public boolean isBlank() {
-        return (this.getLetter() == '?');
+        return this.isBlank;
     }
 
     public void setLetter(char letter) {
-        if (!isBlank()) throw new IllegalArgumentException("Can't change a tile that already has a letter on it");
+        if (this.letter != '?') throw new IllegalArgumentException("Can't change a tile that already has a letter on it");
 
         this.letter = letter;
     }
