@@ -19,14 +19,14 @@ public class Square {
         return tile != null;
     }
 
-    public char getLetter() {
-        if (!isOccupied()) return ' ';
+    public Character getLetter() {
+        if (!isOccupied()) return null;
 
         return tile.getLetter();
     }
 
-    public int getValue() {
-        if (!isOccupied()) return -1;
+    public Integer getValue() {
+        if (!isOccupied()) return null;
 
         return tile.getValue();
     }
