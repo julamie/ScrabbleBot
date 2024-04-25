@@ -95,16 +95,30 @@ public class WordValidation {
         return true;
     }
 
-    public boolean isWordInDictionary() {
+    public boolean isWordInDictionary(String word) {
         return true; // TODO: Add check if word is in dictionary
     }
 
+    public boolean isWordInDictionary() {
+        return isWordInDictionary(this.word.toString());
+    }
+
+    public boolean areCrossWordsInDictionary() {
+        String[] crossWords = new CrossCheck(this.board, this.word).getCrossWordList();
+
+        for (String crossWord: crossWords) {
+            if (!isWordInDictionary(crossWord)) return false;
+        }
+
+        return true;
+    }
+
     public boolean isWordValid() {
-        // TODO: Add cross checks
         return  doesWordStayInBounds() &&
                 doesWordNotOverlapOtherTiles() &&
                 isWordConnectedToWord() &&
                 canWordBePlayedWithTilesOnRack() &&
-                isWordInDictionary();
+                isWordInDictionary() &&
+                areCrossWordsInDictionary();
     }
 }
