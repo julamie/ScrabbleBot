@@ -25,9 +25,11 @@ public class TestObjects {
         testBoard.setTileOnBoard(new Tile('N', 1), 9, 10);
 
         // sets 'AUFZUG' with a blank 'Z' on the board
+        Tile blankTile = new Tile('?', 0);
+        blankTile.setLetter('Z');
         testBoard.setTileOnBoard(new Tile('A', 1), 5, 9);
         testBoard.setTileOnBoard(new Tile('F', 4), 5, 11);
-        testBoard.setTileOnBoard(new Tile('?', 0), 5, 12);
+        testBoard.setTileOnBoard(blankTile, 5, 12);
         testBoard.setTileOnBoard(new Tile('U', 1), 5, 13);
         testBoard.setTileOnBoard(new Tile('G', 2), 5, 14);
 
@@ -42,6 +44,12 @@ public class TestObjects {
         testBoard.setTileOnBoard(new Tile('Ä', 6), 9, 1);
         testBoard.setTileOnBoard(new Tile('T', 1), 10, 1);
         testBoard.setTileOnBoard(new Tile('E', 1), 11, 1);
+
+        // sets BEZUG vertically at the right edge of the board
+        testBoard.setTileOnBoard(new Tile('B', 3), 1, 14);
+        testBoard.setTileOnBoard(new Tile('E', 1), 2, 14);
+        testBoard.setTileOnBoard(new Tile('Z', 3), 3, 14);
+        testBoard.setTileOnBoard(new Tile('U', 1), 4, 14);
 
         return testBoard;
     }
