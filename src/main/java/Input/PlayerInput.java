@@ -1,57 +1,108 @@
 package Input;
 
-import BoardStructure.Bag;
-import BoardStructure.Board;
-import BoardStructure.Tile;
-import BoardStructure.Coordinates;
+import BoardStructure.*;
 import Logic.Direction;
 import Logic.TurnType;
 import Logic.Word;
+import Output.Output;
 
 import java.util.Scanner;
 
 public class PlayerInput {
 
-    // TODO: Find a way to get rid of these
-    private Board board;
-    private Bag bag;
+    // TODO: Find a way to get rid of the dependencies of Board and Bag
+    private final Board board;
+    private final Bag bag;
+    private final Rack rack;
+    private String wordInput;
 
-    public PlayerInput(Board board, Bag bag) {
+    public PlayerInput(Board board, Bag bag, Rack rack) {
         this.board = board;
         this.bag = bag;
+        this.rack = rack;
+    }
+
+    public TurnType determineTurnType() {
+        printTurnTypePrompt();
+
+        while (true) {
+            String chosenInput = parseTurnTypeInput();
+
+            if (isInputAValidWord(chosenInput)) return TurnType.PLAY_WORD;
+
+            if (!isInputASpecialMove(chosenInput)) continue;
+            switch (chosenInput.charAt(0)) {
+                case 'E': return TurnType.EXCHANGE_LETTERS;
+                case 'P': return TurnType.PASS_TURN;
+                case 'S': showTilesInBag(); break;
+                default: System.out.println("Invalid input given. Please try again.");
+            };
+        }
     }
 
     private void printTurnTypePrompt() {
-        String outputLine = "Please type in your type of move.\n";
-        outputLine += "P = play a word\nE = exchange letters\nX = pass turn";
+        Output.printRack(this.rack);
+        String outputLine = "Please type in your word.\nAlternatively you can do the following:\n";
+        outputLine += "E = exchange letters\nP = pass turn\nS = show remaining tiles in bag";
         System.out.println(outputLine);
     }
 
-    private Character parseAndCheckReturnTypeInput() {
+    private String parseTurnTypeInput() {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine().trim();
 
-        if (input.length() != 1) {
-            System.err.println("Too long input. Please try again.");
-            return null;
-        }
-
-        return input.charAt(0);
+        return input.trim().toUpperCase();
     }
 
-    public TurnType getTurnType() {
+    private boolean isInputAValidWord(String chosenInput) {
+        if (chosenInput.length() <= 1) return false;
+
+        // check if word is continuous and has only letters
+        if (!chosenInput.chars().allMatch(Character::isLetter)) {
+            System.err.println("Word should consist out of letters without a space. Please try again.");
+            return false;
+        }
+
+        this.wordInput = chosenInput;
+        return true;
+    }
+
+    private static boolean isInputASpecialMove(String chosenInput) {
+        if (chosenInput.isBlank()) {
+            System.out.println("No input given. Please try again.");
+            return false;
+        }
+        return chosenInput.length() == 1;
+    }
+
+    private void showTilesInBag() {
+        Output.printBag(this.bag);
+        printTurnTypePrompt();
+    }
+
+    public Word getWord() {
+        Tile[] wordTiles = this.bag.convertWordToTileArray(this.wordInput);
+        Coordinates coordinates = getCoordinates(this.board.getSize());
+        Direction direction = getDirection();
+
+        return new Word(wordTiles, coordinates, direction);
+    }
+
+    public Coordinates getCoordinates(int boardSize) {
+        printCoordinatePrompt();
+
         while (true) {
-            printTurnTypePrompt();
+            // parse input
+            Scanner scanner = new Scanner(System.in);
+            String parsedLine = scanner.nextLine().trim();
 
-            Character chosenInput = parseAndCheckReturnTypeInput();
-            if (chosenInput == null) continue;
+            Integer column = processAndCheckColumnInput(boardSize, parsedLine);
+            if (column == null) continue;
 
-            switch (chosenInput) {
-                case 'P', 'p': return TurnType.PLAY_WORD;
-                case 'E', 'e': return TurnType.EXCHANGE_LETTERS;
-                case 'X', 'x': return TurnType.PASS_TURN;
-                default: System.err.println("Invalid type of move input. Please try again.");
-            }
+            Integer row = processAndCheckRowInput(boardSize, parsedLine);
+            if (row == null) continue;
+
+            return new Coordinates(row, column);
         }
     }
 
@@ -92,21 +143,18 @@ public class PlayerInput {
         return row;
     }
 
-    public Coordinates getCoordinates(int boardSize) {
+    public Direction getDirection() {
         while (true) {
-            printCoordinatePrompt();
+            printDirectionPrompt();
 
-            // parse input
-            Scanner scanner = new Scanner(System.in);
-            String parsedLine = scanner.nextLine().trim();
+            Character chosenInput = parseAndCheckDirectionInput();
+            if (chosenInput == null) continue;
 
-            Integer column = processAndCheckColumnInput(boardSize, parsedLine);
-            if (column == null) continue;
-
-            Integer row = processAndCheckRowInput(boardSize, parsedLine);
-            if (row == null) continue;
-
-            return new Coordinates(row, column);
+            switch (chosenInput) {
+                case 'H', 'h': return Direction.HORIZONTALLY;
+                case 'V', 'v': return Direction.VERTICALLY;
+                default: System.err.println("Invalid direction input. Please try again.");
+            }
         }
     }
 
@@ -126,63 +174,5 @@ public class PlayerInput {
         }
 
         return input.charAt(0);
-    }
-
-    public Direction getDirection() {
-        while (true) {
-            printDirectionPrompt();
-
-            Character chosenInput = parseAndCheckDirectionInput();
-            if (chosenInput == null) continue;
-
-            switch (chosenInput) {
-                case 'H', 'h': return Direction.HORIZONTALLY;
-                case 'V', 'v': return Direction.VERTICALLY;
-                default: System.err.println("Invalid direction input. Please try again.");
-            }
-        }
-    }
-
-    private void printWordInputPrompt() {
-        String outputLine = "Please type in your word.";
-        System.out.println(outputLine);
-    }
-
-    private String parseAndCheckWordInput() {
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine().trim();
-
-        if (input.isBlank()) {
-            System.err.println("No input found. Please try again.");
-            return null;
-        }
-
-        // check if word is continuous and has only letters
-        if (!input.chars().allMatch(Character::isLetter)) {
-            System.err.println("Word should consist out of letters without a space. Please try again.");
-            return null;
-        }
-
-        return input.toUpperCase();
-    }
-
-    public String getWordInput() {
-        while (true) {
-            printWordInputPrompt();
-
-            String input = parseAndCheckWordInput();
-            if (input == null) continue;
-
-            return input;
-        }
-    }
-
-    public Word getWord() {
-        String wordInput = getWordInput();
-        Coordinates coordinates = getCoordinates(this.board.getSize());
-        Direction direction = getDirection();
-        Tile[] wordTiles = this.bag.convertWordToTileArray(wordInput);
-
-        return new Word(wordTiles, coordinates, direction);
     }
 }
