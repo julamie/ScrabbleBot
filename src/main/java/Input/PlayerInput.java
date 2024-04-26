@@ -168,4 +168,35 @@ public class PlayerInput {
 
         return input.charAt(0);
     }
+
+    private void printLetterExchangePrompt() {
+        String outputLine = "Please type in the letters of the tiles you want to change like a word.\n";
+        outputLine += "e.g. for exchanging F, H and A, type FHA";
+        outputLine += "Type '?' if you want to exchange a blank tile";
+        System.out.println(outputLine);
+    }
+
+    private boolean areAllLettersInInputValid(String input) {
+        if (input.isBlank()) return false;
+
+        for (char letter: input.toCharArray()) {
+            if (!Character.isLetter(letter) && letter != '?') return false;
+        }
+
+        return true;
+    }
+
+    public char[] getLettersToExchange() {
+        printLetterExchangePrompt();
+
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine().trim().toUpperCase();
+
+        while (!areAllLettersInInputValid(input)) {
+            System.out.println("Please only input letters or '?' for blanks.");
+            input = scanner.nextLine().trim().toUpperCase();
+        }
+
+        return input.toCharArray();
+    }
 }
