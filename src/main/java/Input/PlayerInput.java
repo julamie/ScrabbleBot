@@ -3,21 +3,18 @@ package Input;
 import BoardStructure.*;
 import Logic.Direction;
 import Logic.TurnType;
-import Logic.Word;
 import Output.Output;
 
 import java.util.Scanner;
 
 public class PlayerInput {
 
-    // TODO: Find a way to get rid of the dependencies of Board and Bag
-    private final Board board;
+    // TODO: Find a way to get rid of the dependencies of Bag
     private final Bag bag;
     private final Rack rack;
     private String wordInput;
 
-    public PlayerInput(Board board, Bag bag, Rack rack) {
-        this.board = board;
+    public PlayerInput(Bag bag, Rack rack) {
         this.bag = bag;
         this.rack = rack;
     }
@@ -36,7 +33,7 @@ public class PlayerInput {
                 case 'P': return TurnType.PASS_TURN;
                 case 'S': showTilesInBag(); break;
                 default: System.out.println("Invalid input given. Please try again.");
-            };
+            }
         }
     }
 
@@ -80,12 +77,8 @@ public class PlayerInput {
         printTurnTypePrompt();
     }
 
-    public Word getWord() {
-        Tile[] wordTiles = this.bag.convertWordToTileArray(this.wordInput);
-        Coordinates coordinates = getCoordinates(this.board.getSize());
-        Direction direction = getDirection();
-
-        return new Word(wordTiles, coordinates, direction);
+    public String getWordToPlay() {
+        return this.wordInput;
     }
 
     public Coordinates getCoordinates(int boardSize) {
