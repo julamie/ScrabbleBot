@@ -5,6 +5,7 @@ import BoardStructure.Board;
 import BoardStructure.Tile;
 import BoardStructure.Coordinates;
 import Logic.Direction;
+import Logic.TurnType;
 import Logic.Word;
 
 import java.util.Scanner;

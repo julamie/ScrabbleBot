@@ -4,6 +4,7 @@ import BoardStructure.Bag;
 import BoardStructure.Board;
 import BoardStructure.Coordinates;
 import Logic.Direction;
+import Logic.TurnType;
 import org.junit.jupiter.api.*;
 
 import java.io.*;

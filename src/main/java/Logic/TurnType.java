@@ -1,4 +1,4 @@
-package Input;
+package Logic;
 
 public enum TurnType {
     PLAY_WORD,
