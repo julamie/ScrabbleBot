@@ -1,5 +1,6 @@
 package BoardStructure;
 
+import Utils.TestObjects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,22 +12,7 @@ class RackTest {
 
     @BeforeEach
     void setup() {
-        this.rack = createTestRack();
-    }
-
-    private Rack createTestRack() {
-        Rack rack = new Rack();
-        Tile[] newTiles = {
-                new Tile('A', 1),
-                new Tile('B', 3),
-                new Tile('Q', 10),
-                new Tile('Ü', 6),
-                new Tile('?', 0),
-                new Tile('A', 1)
-        };
-        rack.addTilesToRack(newTiles);
-
-        return rack;
+        this.rack = new TestObjects().getTestRack();
     }
 
     @Test
@@ -49,6 +35,10 @@ class RackTest {
 
     @Test
     void removingOneTileShouldRemoveOnlyOneTileWithTheSameLetter() {
+        // add replace tile with a second 'A'
+        this.rack.removeTileFromRack('Y');
+        this.rack.addTilesToRack(new Tile[]{new Tile('A', 1)});
+
         this.rack.removeTileFromRack('A');
 
         char[] remainingLetters = this.rack.getLettersOnRack();
@@ -61,5 +51,20 @@ class RackTest {
         }
 
         assertTrue(letterExists);
+    }
+
+    @Test
+    void rackShouldContainAnR() {
+        assertTrue(this.rack.doesRackContain('r'));
+    }
+
+    @Test
+    void rackShouldContainABlankTile() {
+        assertTrue(this.rack.doesRackContain('?'));
+    }
+
+    @Test
+    void rackShouldNotContainAnF() {
+        assertFalse(this.rack.doesRackContain('F'));
     }
 }
