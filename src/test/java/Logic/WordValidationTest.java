@@ -156,4 +156,24 @@ class WordValidationTest {
         //                                Direction.HORIZONTALLY);
         //assertFalse(validation.isWordInDictionary());
     }
+
+    @Test
+    void firstWordInMiddleShouldBeInTheMiddleOfTheBoard() {
+        this.testBoard = new Board();
+        WordValidation validationHorizontal = getAxolotlValidator(new Coordinates(7,1), Direction.HORIZONTALLY);
+        WordValidation validationVertical = getAxolotlValidator(new Coordinates(1,7), Direction.VERTICALLY);
+
+        assertTrue(validationHorizontal.isWordCoveringTheMiddleSquare());
+        assertTrue(validationVertical.isWordCoveringTheMiddleSquare());
+    }
+
+    @Test
+    void firstWordInMiddleShouldNotBeInTheMiddleOfTheBoard() {
+        this.testBoard = new Board();
+        WordValidation validationHorizontal = getAxolotlValidator(new Coordinates(7,0), Direction.HORIZONTALLY);
+        WordValidation validationVertical = getAxolotlValidator(new Coordinates(0,7), Direction.VERTICALLY);
+
+        assertFalse(validationHorizontal.isWordCoveringTheMiddleSquare());
+        assertFalse(validationVertical.isWordCoveringTheMiddleSquare());
+    }
 }
