@@ -42,6 +42,14 @@ public class Rack {
         return tileRack;
     }
 
+    public boolean doesRackContain(char letter) {
+        for (Tile tile: this.tileRack) {
+            if (tile.getLetter() == Character.toUpperCase(letter)) return true;
+        }
+
+        return false;
+    }
+
     public char[] getLettersOnRack() {
         char[] rackLetters = new char[this.tileRack.size()];
 
