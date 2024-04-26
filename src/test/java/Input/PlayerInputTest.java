@@ -1,7 +1,6 @@
 package Input;
 
 import BoardStructure.Bag;
-import BoardStructure.Board;
 import BoardStructure.Coordinates;
 import BoardStructure.Rack;
 import Logic.Direction;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerInputTest {
 
-    private final PlayerInput input = new PlayerInput(new Board(), new Bag(), new Rack());
+    private final PlayerInput input = new PlayerInput(new Bag(), new Rack());
     private final InputStream systemInBackup = System.in; // backup System.in to restore it later;
     private final PrintStream systemOutBackup = System.out;
     private final PrintStream systemErrBackup = System.err;
