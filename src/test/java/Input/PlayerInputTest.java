@@ -3,6 +3,7 @@ package Input;
 import BoardStructure.Bag;
 import BoardStructure.Board;
 import BoardStructure.Coordinates;
+import BoardStructure.Rack;
 import Logic.Direction;
 import Logic.TurnType;
 import org.junit.jupiter.api.*;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerInputTest {
 
-    private final PlayerInput input = new PlayerInput(new Board(), new Bag());
+    private final PlayerInput input = new PlayerInput(new Board(), new Bag(), new Rack());
     private final InputStream systemInBackup = System.in; // backup System.in to restore it later;
     private final PrintStream systemOutBackup = System.out;
     private final PrintStream systemErrBackup = System.err;
@@ -40,9 +41,9 @@ class PlayerInputTest {
     }
 
     @Test
-    void typingPShouldReturnPlayWordAsTurnType() {
-        mockInputToSystemIn("P");
-        TurnType chosenTurnType = this.input.getTurnType();
+    void typingAWordShouldReturnPlayWordAsTurnType() {
+        mockInputToSystemIn("Axolotl ");
+        TurnType chosenTurnType = this.input.determineTurnType();
 
         assertEquals(TurnType.PLAY_WORD, chosenTurnType);
     }
@@ -51,16 +52,32 @@ class PlayerInputTest {
     void typingEShouldReturnExchangeLettersAsTurnType() {
         mockInputToSystemIn("E");
 
-        TurnType chosenTurnType = this.input.getTurnType();
+        TurnType chosenTurnType = this.input.determineTurnType();
         assertEquals(TurnType.EXCHANGE_LETTERS, chosenTurnType);
     }
 
     @Test
-    void typingXShouldReturnPassTurnAsTurnType() {
-        mockInputToSystemIn("X");
+    void typingPShouldReturnPassTurnAsTurnType() {
+        mockInputToSystemIn("P");
 
-        TurnType chosenTurnType = this.input.getTurnType();
+        TurnType chosenTurnType = this.input.determineTurnType();
         assertEquals(TurnType.PASS_TURN, chosenTurnType);
+    }
+
+    @Test
+    void typingSShouldPrintTheBagContents() {
+        mockInputToSystemIn("S");
+
+        // can't really check if the bag is really printed out, so test if you need to input something after it
+        assertThrows(NoSuchElementException.class, this.input::determineTurnType);
+    }
+
+    @Test
+    void typingBlankInputShouldPrintPromptAgain() {
+        mockInputToSystemIn("        ");
+
+        // no line found, means the input prompt loops again
+        assertThrows(NoSuchElementException.class, this.input::determineTurnType);
     }
 
     @Test
@@ -68,15 +85,7 @@ class PlayerInputTest {
         mockInputToSystemIn("W");
 
         // no line found, means the input prompt loops again
-        assertThrows(NoSuchElementException.class, this.input::getTurnType);
-    }
-
-    @Test
-    void typingTooLongInputShouldPrintPromptAgain() {
-        mockInputToSystemIn("hello world");
-
-        // no line found, means the input prompt loops again
-        assertThrows(NoSuchElementException.class, this.input::getTurnType);
+        assertThrows(NoSuchElementException.class, this.input::determineTurnType);
     }
 
     @Test
@@ -140,13 +149,6 @@ class PlayerInputTest {
     }
 
     @Test
-    void typingAllowedWordShouldReturnThisWord() {
-        mockInputToSystemIn("Axolotl ");
-
-        assertEquals("AXOLOTL", this.input.getWordInput());
-    }
-
-    @Test
     void typingNoWordShouldLoopAgain() {
         mockInputToSystemIn("       ");
 
@@ -157,6 +159,6 @@ class PlayerInputTest {
     void typingSpaceShouldLoopAgain() {
         mockInputToSystemIn("Spaced word");
 
-        assertThrows(NoSuchElementException.class, this.input::getWordInput);
+        assertThrows(NoSuchElementException.class, this.input::determineTurnType);
     }
 }
