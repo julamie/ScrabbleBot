@@ -160,4 +160,25 @@ class PlayerInputTest {
 
         assertThrows(NoSuchElementException.class, this.input::determineTurnType);
     }
+
+    @Test
+    void typingValidStringOfLettersShouldReturnThatAsACharArray() {
+        mockInputToSystemIn("AH?E");
+
+        assertArrayEquals(new char[]{'A', 'H', '?', 'E'}, this.input.getLettersToExchange());
+    }
+
+    @Test
+    void typingBlankWordForLettersToExchangeShouldLoopAgain() {
+        mockInputToSystemIn("       ");
+
+        assertThrows(NoSuchElementException.class, this.input::getLettersToExchange);
+    }
+
+    @Test
+    void typingNonLetterForLettersToExchangeShouldLoopAgain() {
+        mockInputToSystemIn("fd2r");
+
+        assertThrows(NoSuchElementException.class, this.input::getLettersToExchange);
+    }
 }
