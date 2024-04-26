@@ -113,12 +113,25 @@ public class WordValidation {
         return true;
     }
 
+    public boolean isWordCoveringTheMiddleSquare() {
+        int middlePosition = this.board.getSize() / 2; // 15 divided by 2 rounds down to 7
+        for (int i = 0; i < this.word.getLength(); i++) {
+            Coordinates currCoordinates = this.word.getCoordinates(i);
+            if (currCoordinates.row() == middlePosition && currCoordinates.col() == middlePosition) return true;
+        }
+
+        return false;
+    }
+
     public boolean isWordValid() {
-        return  doesWordStayInBounds() &&
-                doesWordNotOverlapOtherTiles() &&
-                isWordConnectedToWord() &&
-                canWordBePlayedWithTilesOnRack() &&
-                isWordInDictionary() &&
-                areCrossWordsInDictionary();
+        // special case if the first move is made
+        if (this.board.isEmpty()) {
+            return doesWordStayInBounds() && canWordBePlayedWithTilesOnRack() &&
+                   isWordInDictionary()   && isWordCoveringTheMiddleSquare();
+        }
+
+        return doesWordStayInBounds()  && doesWordNotOverlapOtherTiles()   &&
+               isWordConnectedToWord() && canWordBePlayedWithTilesOnRack() &&
+               isWordInDictionary()    && areCrossWordsInDictionary();
     }
 }
