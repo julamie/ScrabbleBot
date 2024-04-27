@@ -42,7 +42,7 @@ public abstract class Player {
         this.board.setTileOnBoard(tileFromRack, currCoordinates);
     }
 
-    private boolean isWordLegalToPlay(Word word) {
+    protected boolean isWordLegalToPlay(Word word) {
         WordValidation wordValidation = new WordValidation(this.board, this.rack, word);
         return wordValidation.isWordValid();
     }
