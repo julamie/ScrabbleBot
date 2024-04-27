@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class PlayerInput {
 
-    // TODO: Find a way to get rid of the dependencies of Bag
+    // TODO: Find a way to get rid of the dependencies of Bag and Rack
     private final Bag bag;
     private final Rack rack;
     private String wordInput;
@@ -171,7 +171,7 @@ public class PlayerInput {
 
     private void printLetterExchangePrompt() {
         String outputLine = "Please type in the letters of the tiles you want to change like a word.\n";
-        outputLine += "e.g. for exchanging F, H and A, type FHA";
+        outputLine += "e.g. for exchanging F, H and A, type FHA\n";
         outputLine += "Type '?' if you want to exchange a blank tile";
         System.out.println(outputLine);
     }
