@@ -14,22 +14,40 @@ public class HumanPlayer extends Player {
         super(board, bag);
     }
 
-    private Word getWordFromPlayer(PlayerInput input) {
+    private Word getValidWordFromPlayer(PlayerInput input) {
         String wordInput = input.getWordToPlay();
         Tile[] letters = this.bag.convertWordToTileArray(wordInput);
         Coordinates coordinates = input.getCoordinates(this.board.getSize());
-        Direction direction = input.getDirection();
+        Direction direction = determineDirection(input, letters, coordinates);
+        if (direction == null) return null;
 
         return new Word(letters, coordinates, direction);
     }
 
+    private Direction determineDirection(PlayerInput input, Tile[] letters, Coordinates coordinates) {
+        Word horizontalWord = new Word(letters, coordinates, Direction.HORIZONTALLY);
+        Word verticalWord = new Word(letters, coordinates, Direction.VERTICALLY);
+
+        boolean horizontalPlayIsPossible = isWordLegalToPlay(horizontalWord);
+        boolean verticalPlayIsPossible = isWordLegalToPlay(verticalWord);
+
+        // return the direction based on which direction a word is allowed to be played
+        // if both directions are possible, ask the player
+        if (!horizontalPlayIsPossible && !verticalPlayIsPossible) return null;
+        if (horizontalPlayIsPossible && verticalPlayIsPossible) return input.getDirection();
+        if (horizontalPlayIsPossible) return Direction.HORIZONTALLY;
+        else return Direction.VERTICALLY;
+    }
+
     private boolean handlePlayWord(PlayerInput input) {
-        Word word = getWordFromPlayer(input);
+        Word word = getValidWordFromPlayer(input);
+        if (word == null) {
+            System.out.println("Your word can't be played here. Please try again.");
+            return false;
+        }
+        setWordOnBoard(word);
 
-        boolean validMoveMade = setWordOnBoard(word);
-        if (!validMoveMade) System.out.println("Your word can't be played here. Please try again.");
-
-        return validMoveMade;
+        return true;
     }
 
     private boolean areAllLettersOnTheRack(char[] lettersToExchange) {
