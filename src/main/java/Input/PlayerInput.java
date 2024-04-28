@@ -1,22 +1,19 @@
 package Input;
 
-import BoardStructure.*;
+import BoardStructure.Coordinates;
 import Logic.Direction;
 import Logic.TurnType;
 import Output.Output;
+import PlayerBehaviour.Player;
 
 import java.util.Scanner;
 
 public class PlayerInput {
-
-    // TODO: Find a way to get rid of the dependencies of Bag and Rack
-    private final Bag bag;
-    private final Rack rack;
+    private final Player player;
     private String wordInput;
 
-    public PlayerInput(Bag bag, Rack rack) {
-        this.bag = bag;
-        this.rack = rack;
+    public PlayerInput(Player player) {
+        this.player = player;
     }
 
     public TurnType determineTurnType() {
@@ -38,7 +35,7 @@ public class PlayerInput {
     }
 
     private void printTurnTypePrompt() {
-        Output.printRack(this.rack);
+        Output.printRack(player.getRack());
         String outputLine = "Please type in your word.\nAlternatively you can do the following:\n";
         outputLine += "E = exchange letters\nP = pass turn\nS = show remaining tiles in bag";
         System.out.println(outputLine);
@@ -73,7 +70,7 @@ public class PlayerInput {
     }
 
     private void showTilesInBag() {
-        Output.printBag(this.bag);
+        Output.printBag(player.getBag());
         printTurnTypePrompt();
     }
 
@@ -81,9 +78,10 @@ public class PlayerInput {
         return this.wordInput;
     }
 
-    public Coordinates getCoordinates(int boardSize) {
+    public Coordinates getCoordinates() {
         printCoordinatePrompt();
 
+        int boardSize = this.player.getBoard().getSize();
         while (true) {
             // parse input
             Scanner scanner = new Scanner(System.in);
