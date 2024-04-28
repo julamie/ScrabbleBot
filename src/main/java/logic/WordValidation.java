@@ -128,15 +128,19 @@ public class WordValidation {
         return false;
     }
 
-    public boolean isWordValid() {
+    public WordValidity getWordValidity() {
         // special case if the first move is made
         if (this.board.isEmpty()) {
-            return doesWordStayInBounds() && canWordBePlayedWithTilesOnRack() &&
-                   isWordInDictionary()   && isWordCoveringTheMiddleSquare();
+            if (!isWordCoveringTheMiddleSquare()) return WordValidity.NOT_IN_MIDDLE_SQUARE;
         }
 
-        return doesWordStayInBounds()  && doesWordNotOverlapOtherTiles()   &&
-               isWordConnectedToWord() && canWordBePlayedWithTilesOnRack() &&
-               isWordInDictionary()    && areCrossWordsInDictionary();
+        if (!doesWordStayInBounds())           return WordValidity.NOT_IN_BOUNDS;
+        if (!doesWordNotOverlapOtherTiles())   return WordValidity.OVERLAPS_TILES;
+        if (!isWordConnectedToWord())          return WordValidity.DISCONNECTED;
+        if (!canWordBePlayedWithTilesOnRack()) return WordValidity.TILES_NOT_ON_RACK;
+        if (!isWordInDictionary())             return WordValidity.WORD_NOT_IN_DICTIONARY;
+        if (!areCrossWordsInDictionary())      return WordValidity.CROSSWORD_NOT_IN_DICTIONARY;
+
+        return WordValidity.VALID;
     }
 }
