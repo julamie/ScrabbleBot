@@ -2,8 +2,11 @@ package gameSetup;
 
 import boardStructure.Bag;
 import boardStructure.Board;
+import output.Output;
 import playerBehaviour.HumanPlayer;
 import playerBehaviour.Player;
+
+import java.util.Random;
 
 public class Game {
 
@@ -17,16 +20,43 @@ public class Game {
         Game.language = language;
         Game.board = new Board();
         Game.bag = new Bag();
-        this.players = createPlayers(numHumans, numBots);
+        this.players = createPlayersInRandomOrder(numHumans, numBots);
     }
 
-    private Player[] createPlayers(int numHumans, int numBots) {
-        Player[] players = new Player[numHumans];
-        for (int i = 0; i < numHumans; i++) {
-            this.players[i] = new HumanPlayer();
+    public void start() {
+        int numMoves = 0;
+        while (numMoves++ <= 10) {
+            for (Player player : this.players) {
+                player.makeMove();
+                Output.printBoard(Game.board);
+            }
         }
-        // TODO: Add BotPlayers
+    }
+
+    private Player[] createPlayersInRandomOrder(int numHumans, int numBots) {
+        int numPlayers = numHumans + numBots;
+        Player[] players = new Player[numPlayers];
+
+        int i = 0;
+        while (i < numPlayers) {
+            if (numHumans == 0) players[i] = new HumanPlayer();
+            else if (numBots == 0) players[i] = new HumanPlayer();
+
+            else {
+                Player newPlayer = createRandomPlayerType();
+                if (newPlayer instanceof HumanPlayer) numPlayers--;
+                else numBots--;
+            }
+
+            i++;
+        }
+
         return players;
     }
 
+    private Player createRandomPlayerType() {
+        Random random = new Random();
+        if (random.nextInt(2) == 0) return new HumanPlayer();
+        else return new HumanPlayer(); // TODO: Replace with BotPlayer
+    }
 }
