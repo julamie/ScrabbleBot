@@ -1,6 +1,5 @@
 package logic;
 
-import boardStructure.Bag;
 import boardStructure.Board;
 import boardStructure.Coordinates;
 import boardStructure.Tile;

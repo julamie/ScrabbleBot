@@ -20,7 +20,6 @@ class WordValidationTest {
     }
 
     private WordValidation getCustomWordValidator(String input, Coordinates coordinates, Direction direction) {
-        Bag bag = new Bag(Language.GERMAN);
         Tile[] letters = Tile.convertStringToTileArray(input, Language.GERMAN);
         Word word = new Word(letters, coordinates, direction);
 

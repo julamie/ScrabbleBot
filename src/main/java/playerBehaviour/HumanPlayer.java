@@ -4,7 +4,6 @@ import boardStructure.Bag;
 import boardStructure.Board;
 import boardStructure.Coordinates;
 import boardStructure.Tile;
-import gameSetup.Language;
 import input.PlayerInput;
 import logic.*;
 
