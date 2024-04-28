@@ -4,6 +4,7 @@ import boardStructure.*;
 import logic.TurnType;
 import logic.Word;
 import logic.WordValidation;
+import logic.WordValidity;
 
 public abstract class Player {
 
@@ -41,13 +42,14 @@ public abstract class Player {
         this.board.setTileOnBoard(tileFromRack, currCoordinates);
     }
 
-    protected boolean isWordLegalToPlay(Word word) {
+    protected WordValidity checkWord(Word word) {
         WordValidation wordValidation = new WordValidation(this, word);
-        return wordValidation.isWordValid();
+
+        return wordValidation.getWordValidity();
     }
 
     protected boolean setWordOnBoard(Word word) {
-        if (!isWordLegalToPlay(word)) return false;
+        if (checkWord(word) != WordValidity.VALID) return false;
 
         for (int position = 0; position < word.getLength(); position++) {
             setTileOnBoard(word, position);
