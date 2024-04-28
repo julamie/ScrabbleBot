@@ -2,6 +2,7 @@ package playerBehaviour;
 
 import boardStructure.*;
 import gameSetup.Game;
+import logic.TurnType;
 import logic.Word;
 import logic.WordValidation;
 
@@ -18,7 +19,6 @@ public abstract class Player {
         this.rack = new Rack();
         this.score = 0;
 
-        // TODO: Should the player immediately fill their rack?
         fillRack();
     }
 
@@ -90,6 +90,6 @@ public abstract class Player {
         return this.bag;
     }
 
-    public abstract void makeMove();
+    public abstract TurnType makeMove();
 
 }

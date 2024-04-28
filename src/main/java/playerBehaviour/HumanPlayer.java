@@ -88,17 +88,21 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public void makeMove() {
+    public TurnType makeMove() {
         PlayerInput input = new PlayerInput(this);
 
+        TurnType chosenTurnType = null;
         boolean validMoveMade = false;
         while (!validMoveMade) {
-            TurnType turnType = input.determineTurnType();
-            validMoveMade = switch (turnType) {
+            chosenTurnType = input.determineTurnType();
+            validMoveMade = switch (chosenTurnType) {
                 case PLAY_WORD -> handlePlayWord(input);
                 case EXCHANGE_LETTERS -> handleExchangeLetters(input);
                 case PASS_TURN -> true;
             };
+
         }
+
+        return chosenTurnType;
     }
 }
