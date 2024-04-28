@@ -9,17 +9,13 @@ import playerBehaviour.Player;
 import java.util.Random;
 
 public class Game {
-
-    public static Language language;
-    public static Board board;
-    public static Bag bag;
-
+    private final Board board;
+    private final Bag bag;
     private final Player[] players;
 
     public Game(Language language, int numHumans, int numBots) {
-        Game.language = language;
-        Game.board = new Board();
-        Game.bag = new Bag(language);
+        this.board = new Board();
+        this.bag = new Bag(language);
         this.players = createPlayersInRandomOrder(numHumans, numBots);
     }
 
@@ -28,7 +24,7 @@ public class Game {
         while (numMoves++ <= 10) {
             for (Player player : this.players) {
                 player.makeMove();
-                Output.printBoard(Game.board);
+                Output.printBoard(this.board);
             }
         }
     }
@@ -39,8 +35,8 @@ public class Game {
 
         int i = 0;
         while (i < numPlayers) {
-            if (numHumans == 0) players[i] = new HumanPlayer();
-            else if (numBots == 0) players[i] = new HumanPlayer();
+            if (numHumans == 0) players[i] = new HumanPlayer(this.board, this.bag);
+            else if (numBots == 0) players[i] = new HumanPlayer(this.board, this.bag);
 
             else {
                 Player newPlayer = createRandomPlayerType();
@@ -56,7 +52,7 @@ public class Game {
 
     private Player createRandomPlayerType() {
         Random random = new Random();
-        if (random.nextInt(2) == 0) return new HumanPlayer();
-        else return new HumanPlayer(); // TODO: Replace with BotPlayer
+        if (random.nextInt(2) == 0) return new HumanPlayer(this.board, this.bag);
+        else return new HumanPlayer(this.board, this.bag); // TODO: Replace with BotPlayer
     }
 }
