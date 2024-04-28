@@ -83,7 +83,7 @@ public class SquareOutput {
                 line.append(RESET);
                 break;
             }
-        };
+        }
 
         return line;
     }
@@ -102,11 +102,9 @@ public class SquareOutput {
             return TileOutput.getTileOutputLines(dummyTile);
         }
 
-        StringBuilder[] lines = {
+        return new StringBuilder[]{
                 getUpperLineOfEmptySquare(square),
                 getLowerLineOfEmptySquare(square)
         };
-
-        return lines;
     }
 }

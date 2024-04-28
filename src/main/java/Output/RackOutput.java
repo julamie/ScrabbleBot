@@ -17,11 +17,9 @@ public class RackOutput {
             lowerLine.append(tileLines[1]).append(' ');
         }
 
-        StringBuilder[] lines = {
+        return new StringBuilder[]{
                 upperLine,
                 lowerLine
         };
-
-        return lines;
     }
 }

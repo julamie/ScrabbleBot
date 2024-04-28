@@ -26,11 +26,9 @@ public class TileOutput {
     }
 
     public static StringBuilder[] getTileOutputLines(Tile tile) {
-        StringBuilder[] lines = {
+        return new StringBuilder[]{
                 getUpperLineOfTile(tile),
                 getLowerLineOfTile(tile)
         };
-
-        return lines;
     }
 }
