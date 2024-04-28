@@ -1,16 +1,8 @@
-import BoardStructure.Bag;
-import BoardStructure.Board;
-import BoardStructure.Rack;
-import IO.Output;
+import gameSetup.Game;
+import gameSetup.Language;
 
 public class Main {
     public static void main(String[] args) {
-        var board = new Board();
-        var rack = new Rack();
-        var bag = new Bag();
-
-        Output.printBoard(board);
-        Output.printRack(rack);
-        Output.printBag(bag);
+        new Game(Language.GERMAN, 1, 0).start();
     }
 }
