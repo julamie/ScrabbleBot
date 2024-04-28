@@ -49,6 +49,14 @@ class OutputTest {
     }
 
     @Test
+    void printHalfEmptyBag() {
+        Bag bag = new Bag();
+        bag.drawTilesFromBag(bag.getSize() / 2);
+
+        Output.printBag(bag);
+    }
+
+    @Test
     void printTestBoard() {
         Board board = new TestObjects().getTestBoard();
 
