@@ -1,6 +1,7 @@
 package output;
 
 import boardStructure.Bag;
+import gameSetup.Language;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ class BagOutputTest {
 
      @BeforeEach
      void setup() {
-         this.bag = new Bag();
+         this.bag = new Bag(Language.GERMAN);
      }
 
     private static int getStringLengthWithoutANSI(String str) {

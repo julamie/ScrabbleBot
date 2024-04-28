@@ -1,6 +1,7 @@
 package output;
 
 import boardStructure.*;
+import gameSetup.Language;
 import utils.TestObjects;
 import org.junit.jupiter.api.Test;
 
@@ -43,14 +44,14 @@ class OutputTest {
 
     @Test
     void printFullBag() {
-        Bag bag = new Bag();
+        Bag bag = new Bag(Language.GERMAN);
 
         Output.printBag(bag);
     }
 
     @Test
     void printHalfEmptyBag() {
-        Bag bag = new Bag();
+        Bag bag = new Bag(Language.GERMAN);
         bag.drawTilesFromBag(bag.getSize() / 2);
 
         Output.printBag(bag);

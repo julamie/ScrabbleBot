@@ -3,6 +3,7 @@ package input;
 import boardStructure.Bag;
 import boardStructure.Board;
 import boardStructure.Coordinates;
+import gameSetup.Language;
 import logic.Direction;
 import logic.TurnType;
 import playerBehaviour.HumanPlayer;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerInputTest {
 
-    private final Player player = new HumanPlayer(new Board(), new Bag());
+    private final Player player = new HumanPlayer(new Board(), new Bag(Language.GERMAN));
     private final PlayerInput input = new PlayerInput(player);
     private final InputStream systemInBackup = System.in; // backup System.in to restore it later;
     private final PrintStream systemOutBackup = System.out;

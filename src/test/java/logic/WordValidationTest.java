@@ -1,6 +1,7 @@
 package logic;
 
 import boardStructure.*;
+import gameSetup.Language;
 import utils.TestObjects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ class WordValidationTest {
     }
 
     private WordValidation getCustomWordValidator(String input, Coordinates coordinates, Direction direction) {
-        Bag bag = new Bag();
+        Bag bag = new Bag(Language.GERMAN);
         Tile[] letters = bag.convertWordToTileArray(input);
         Word word = new Word(letters, coordinates, direction);
 

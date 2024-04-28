@@ -1,5 +1,6 @@
 package boardStructure;
 
+import gameSetup.Language;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ class BagTest {
 
     @BeforeEach
     void setup() {
-        this.bag = new Bag();
+        this.bag = new Bag(Language.GERMAN);
     }
 
     @Test

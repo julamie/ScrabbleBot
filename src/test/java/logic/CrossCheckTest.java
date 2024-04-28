@@ -4,6 +4,7 @@ import boardStructure.Bag;
 import boardStructure.Board;
 import boardStructure.Coordinates;
 import boardStructure.Tile;
+import gameSetup.Language;
 import utils.TestObjects;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ class CrossCheckTest {
         // add a new tile for better cross-check testing
         board.setTileOnBoard(new Tile('S', 1), 6, 8);
 
-        Tile[] letters = new Bag().convertWordToTileArray("BEISPIEL");
+        Tile[] letters = new Bag(Language.GERMAN).convertWordToTileArray("BEISPIEL");
         Word word = new Word(letters, coordinates, direction);
         return new CrossCheck(board, word);
     }

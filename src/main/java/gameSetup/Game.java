@@ -19,7 +19,7 @@ public class Game {
     public Game(Language language, int numHumans, int numBots) {
         Game.language = language;
         Game.board = new Board();
-        Game.bag = new Bag();
+        Game.bag = new Bag(language);
         this.players = createPlayersInRandomOrder(numHumans, numBots);
     }
 

@@ -4,6 +4,7 @@ import boardStructure.Bag;
 import boardStructure.Board;
 import boardStructure.Rack;
 import boardStructure.Tile;
+import gameSetup.Language;
 
 public class TestObjects {
     public Board getTestBoard() {
@@ -72,7 +73,7 @@ public class TestObjects {
     }
 
     public Bag getTestBag() {
-        Bag bag = new Bag();
+        Bag bag = new Bag(Language.GERMAN);
         bag.drawTilesFromBag(bag.getSize());
         bag.addTilesToBag(new Tile[] {
                 new Tile('E', 1),

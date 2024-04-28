@@ -30,7 +30,7 @@ public class BagOutput {
     public static StringBuilder[] getBagOutputLines(Bag bag) {
         ArrayList<StringBuilder> lines = new ArrayList<>();
 
-        HashMap<Character, Integer> letterValues = bag.getLetterValues();
+        HashMap<Character, Integer> letterValues = bag.getLanguage().getLetterValues();
         HashMap<Character, Integer> bagDistribution = bag.getRemainingLetterDistribution();
 
         char[] tileLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ?".toCharArray();
