@@ -42,7 +42,7 @@ public class HumanPlayer extends Player {
     private boolean handlePlayWord(PlayerInput input) {
         Word word = getValidWordFromPlayer(input);
         if (word == null) {
-            System.out.println("Your word can't be played here. Please try again.");
+            System.err.println("Your word can't be played here. Please try again.");
             return false;
         }
         setWordOnBoard(word);
@@ -60,7 +60,7 @@ public class HumanPlayer extends Player {
         }
 
         if (!allLettersOnRack) {
-            System.out.println("Not all letters input are on the rack. Please try again.");
+            System.err.println("Not all letters input are on the rack. Please try again.");
             return false;
         }
 
@@ -77,7 +77,7 @@ public class HumanPlayer extends Player {
         }
 
         boolean validMoveMade = exchangeTiles(tilesToExchange);
-        if (!validMoveMade) System.out.println("There are less than seven tiles in the bag.\n" +
+        if (!validMoveMade) System.err.println("There are less than seven tiles in the bag.\n" +
                 "Exchanging unavailable.");
 
         return validMoveMade;

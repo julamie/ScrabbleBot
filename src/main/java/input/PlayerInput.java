@@ -29,7 +29,7 @@ public class PlayerInput {
                 case 'E': return TurnType.EXCHANGE_LETTERS;
                 case 'P': return TurnType.PASS_TURN;
                 case 'S': showTilesInBag(); break;
-                default: System.out.println("Invalid input given. Please try again.");
+                default: System.err.println("Invalid input given. Please try again.");
             }
         }
     }
@@ -63,7 +63,7 @@ public class PlayerInput {
 
     private static boolean isInputASpecialMove(String chosenInput) {
         if (chosenInput.isBlank()) {
-            System.out.println("No input given. Please try again.");
+            System.err.println("No input given. Please try again.");
             return false;
         }
         return chosenInput.length() == 1;
@@ -191,7 +191,7 @@ public class PlayerInput {
         String input = scanner.nextLine().trim().toUpperCase();
 
         while (!areAllLettersInInputValid(input)) {
-            System.out.println("Please only input letters or '?' for blanks.");
+            System.err.println("Please only input letters or '?' for blanks.");
             input = scanner.nextLine().trim().toUpperCase();
         }
 
