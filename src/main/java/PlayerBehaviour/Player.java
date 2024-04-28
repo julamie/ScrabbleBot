@@ -1,7 +1,7 @@
 package PlayerBehaviour;
 
 import BoardStructure.*;
-import BoardStructure.Coordinates;
+import GameSetup.Game;
 import Logic.Word;
 import Logic.WordValidation;
 
@@ -20,6 +20,10 @@ public abstract class Player {
 
         // TODO: Should the player immediately fill their rack?
         fillRack();
+    }
+
+    public Player() {
+        this(Game.board, Game.bag);
     }
 
     private void fillRack() {
@@ -43,7 +47,7 @@ public abstract class Player {
     }
 
     protected boolean isWordLegalToPlay(Word word) {
-        WordValidation wordValidation = new WordValidation(this.board, this.rack, word);
+        WordValidation wordValidation = new WordValidation(this, word);
         return wordValidation.isWordValid();
     }
 
@@ -74,8 +78,16 @@ public abstract class Player {
         this.score += points;
     }
 
+    public Board getBoard() {
+        return this.board;
+    }
+
     public Rack getRack() {
         return this.rack;
+    }
+
+    public Bag getBag() {
+        return this.bag;
     }
 
     public abstract void makeMove();
