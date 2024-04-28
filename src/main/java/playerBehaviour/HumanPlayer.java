@@ -5,21 +5,18 @@ import boardStructure.Board;
 import boardStructure.Coordinates;
 import boardStructure.Tile;
 import input.PlayerInput;
-import logic.Direction;
-import logic.TurnType;
-import logic.Word;
+import logic.*;
 
 public class HumanPlayer extends Player {
     public HumanPlayer(Board board, Bag bag) {
         super(board, bag);
     }
 
-    private Word getValidWordFromPlayer(PlayerInput input) {
+    private Word getWordFromPlayer(PlayerInput input) {
         String wordInput = input.getWordToPlay();
         Tile[] letters = this.bag.convertWordToTileArray(wordInput);
         Coordinates coordinates = input.getCoordinates();
         Direction direction = determineDirection(input, letters, coordinates);
-        if (direction == null) return null;
 
         return new Word(letters, coordinates, direction);
     }
@@ -28,26 +25,41 @@ public class HumanPlayer extends Player {
         Word horizontalWord = new Word(letters, coordinates, Direction.HORIZONTALLY);
         Word verticalWord = new Word(letters, coordinates, Direction.VERTICALLY);
 
-        boolean horizontalPlayIsPossible = isWordLegalToPlay(horizontalWord);
-        boolean verticalPlayIsPossible = isWordLegalToPlay(verticalWord);
+        boolean horizontalPlayIsPossible = checkWord(horizontalWord) == WordValidity.VALID;
+        boolean verticalPlayIsPossible = checkWord(verticalWord) == WordValidity.VALID;
 
-        // return the direction based on which direction a word is allowed to be played
-        // if both directions are possible, ask the player
-        if (!horizontalPlayIsPossible && !verticalPlayIsPossible) return null;
-        if (horizontalPlayIsPossible && verticalPlayIsPossible) return input.getDirection();
-        if (horizontalPlayIsPossible) return Direction.HORIZONTALLY;
-        else return Direction.VERTICALLY;
+        // if both directions are possible ask the player
+        // also ask the player is none are possible, because then they get a helpful explanation
+        // why a word can't be played there
+        if (horizontalPlayIsPossible && !verticalPlayIsPossible) return Direction.HORIZONTALLY;
+        if (!horizontalPlayIsPossible && verticalPlayIsPossible) return Direction.VERTICALLY;
+        else return input.getDirection();
     }
 
     private boolean handlePlayWord(PlayerInput input) {
-        Word word = getValidWordFromPlayer(input);
-        if (word == null) {
-            System.err.println("Your word can't be played here. Please try again.");
+        Word word = getWordFromPlayer(input);
+
+        WordValidity validity = checkWord(word);
+        if (validity != WordValidity.VALID) {
+            showReasonForInvalidWord(validity);
             return false;
         }
+
         setWordOnBoard(word);
 
         return true;
+    }
+
+    private void showReasonForInvalidWord(WordValidity validity) {
+        switch (validity) {
+            case NOT_IN_BOUNDS -> System.err.println("Your word is too long for the board.");
+            case OVERLAPS_TILES -> System.err.println("Your word would overlap other tiles with a different letter.");
+            case DISCONNECTED -> System.err.println("Your word doesn't connect with any other word on the board.");
+            case TILES_NOT_ON_RACK -> System.err.println("You can't play that word with the tiles on your rack.");
+            case WORD_NOT_IN_DICTIONARY -> System.err.println("This word doesn't exist.");
+            case CROSSWORD_NOT_IN_DICTIONARY -> System.err.println("You are creating a second word that doesn't exist.");
+            case NOT_IN_MIDDLE_SQUARE -> System.err.println("Your word must cover the middle square.");
+        }
     }
 
     private boolean areAllLettersOnTheRack(char[] lettersToExchange) {
