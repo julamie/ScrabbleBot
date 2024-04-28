@@ -1,10 +1,12 @@
 package Input;
 
 import BoardStructure.Bag;
+import BoardStructure.Board;
 import BoardStructure.Coordinates;
-import BoardStructure.Rack;
 import Logic.Direction;
 import Logic.TurnType;
+import PlayerBehaviour.HumanPlayer;
+import PlayerBehaviour.Player;
 import org.junit.jupiter.api.*;
 
 import java.io.*;
@@ -14,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerInputTest {
 
-    private final PlayerInput input = new PlayerInput(new Bag(), new Rack());
+    private final Player player = new HumanPlayer(new Board(), new Bag());
+    private final PlayerInput input = new PlayerInput(player);
     private final InputStream systemInBackup = System.in; // backup System.in to restore it later;
     private final PrintStream systemOutBackup = System.out;
     private final PrintStream systemErrBackup = System.err;
@@ -92,7 +95,7 @@ class PlayerInputTest {
         mockInputToSystemIn("F12");
 
         Coordinates coordinatesExpected = new Coordinates(11, 5);
-        Coordinates coordinatesActual = this.input.getCoordinates(15);
+        Coordinates coordinatesActual = this.input.getCoordinates();
 
         assertEquals(coordinatesExpected.row(), coordinatesActual.row());
         assertEquals(coordinatesExpected.col(), coordinatesActual.col());
@@ -102,21 +105,21 @@ class PlayerInputTest {
     void typingLetterOutOfBoundsAsColumnShouldLoopAgain() {
         mockInputToSystemIn("P12");
 
-        assertThrows(NoSuchElementException.class, () -> this.input.getCoordinates(15));
+        assertThrows(NoSuchElementException.class, this.input::getCoordinates);
     }
 
     @Test
     void typingRowNumberOutOfBoundsShouldLoopAgain() {
         mockInputToSystemIn("O16");
 
-        assertThrows(NoSuchElementException.class, () -> this.input.getCoordinates(15));
+        assertThrows(NoSuchElementException.class, this.input::getCoordinates);
     }
 
     @Test
     void typingNoNumberAsRowShouldLoopAgain() {
         mockInputToSystemIn("Axolotl");
 
-        assertThrows(NoSuchElementException.class, () -> this.input.getCoordinates(15));
+        assertThrows(NoSuchElementException.class, this.input::getCoordinates);
     }
 
     @Test
