@@ -1,0 +1,12 @@
+package logic;
+
+public enum WordValidity {
+    VALID,
+    NOT_IN_BOUNDS,
+    OVERLAPS_TILES,
+    DISCONNECTED,
+    TILES_NOT_ON_RACK,
+    WORD_NOT_IN_DICTIONARY,
+    CROSSWORD_NOT_IN_DICTIONARY,
+    NOT_IN_MIDDLE_SQUARE
+}
