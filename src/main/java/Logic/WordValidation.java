@@ -4,6 +4,7 @@ import BoardStructure.Board;
 import BoardStructure.Coordinates;
 import BoardStructure.Rack;
 import BoardStructure.Square;
+import PlayerBehaviour.Player;
 
 public class WordValidation {
 
@@ -15,6 +16,10 @@ public class WordValidation {
         this.board = board;
         this.rack = rack;
         this.word = word;
+    }
+
+    public WordValidation(Player player, Word word) {
+        this(player.getBoard(), player.getRack(), word);
     }
 
     public boolean doesWordStayInBounds() {
@@ -75,7 +80,7 @@ public class WordValidation {
     }
 
     public boolean canWordBePlayedWithTilesOnRack() {
-        String availableLetters = new String(rack.getLettersOnRack());
+        String availableLetters = new String(this.rack.getLettersOnRack());
 
         for (int i = 0; i < this.word.getLength(); i++) {
             String currLetter = this.word.getLetter(i) + "";
