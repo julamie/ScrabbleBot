@@ -29,7 +29,7 @@ public class Rack {
             Tile currTile = this.tileRack.get(i);
             if (!currTile.isBlank()) continue;
 
-            currTile.setLetter(letter); // TODO: Should rack change the letter value of a blank tile?
+            currTile.setLetter(letter);
             return this.tileRack.remove(i);
         }
 
@@ -38,7 +38,6 @@ public class Rack {
     }
 
     public ArrayList<Tile> getTileRack() {
-        // TODO: I'm not sure if I want to keep this method as it is right now
         return tileRack;
     }
 
