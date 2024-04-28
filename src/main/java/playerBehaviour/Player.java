@@ -1,7 +1,6 @@
 package playerBehaviour;
 
 import boardStructure.*;
-import gameSetup.Game;
 import logic.TurnType;
 import logic.Word;
 import logic.WordValidation;
@@ -20,10 +19,6 @@ public abstract class Player {
         this.score = 0;
 
         fillRack();
-    }
-
-    public Player() {
-        this(Game.board, Game.bag);
     }
 
     private void fillRack() {

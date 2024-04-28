@@ -14,10 +14,6 @@ public class HumanPlayer extends Player {
         super(board, bag);
     }
 
-    public HumanPlayer() {
-        super();
-    }
-
     private Word getValidWordFromPlayer(PlayerInput input) {
         String wordInput = input.getWordToPlay();
         Tile[] letters = this.bag.convertWordToTileArray(wordInput);
