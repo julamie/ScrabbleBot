@@ -4,6 +4,7 @@ import boardStructure.Bag;
 import boardStructure.Board;
 import boardStructure.Coordinates;
 import boardStructure.Tile;
+import gameSetup.Language;
 import logic.Direction;
 import logic.Word;
 import utils.TestObjects;
@@ -26,7 +27,7 @@ class PlayerTest {
 
     @Test
     void placingInvalidWordShouldReturnFalse() {
-        Tile[] letters = this.bag.convertWordToTileArray("XNOPYT");
+        Tile[] letters = Tile.convertStringToTileArray("XNOPYT", Language.GERMAN);
         Word word = new Word(letters, new Coordinates(0, 0), Direction.HORIZONTALLY);
 
         assertFalse(player.setWordOnBoard(word));
@@ -34,7 +35,7 @@ class PlayerTest {
 
     @Test
     void placingLegalWordShouldReturnTrue() {
-        Tile[] letters = this.bag.convertWordToTileArray("SCHAFE");
+        Tile[] letters = Tile.convertStringToTileArray("SCHAFE", Language.GERMAN);
         Word word = new Word(letters, new Coordinates(2, 9), Direction.HORIZONTALLY);
 
         assertTrue(player.setWordOnBoard(word));
@@ -42,7 +43,7 @@ class PlayerTest {
 
     @Test
     void fillingUpTilesFromEmptyBagShouldNotGiveAnythingBack() {
-        Tile[] letters = this.bag.convertWordToTileArray("SCHAFE");
+        Tile[] letters = Tile.convertStringToTileArray("SCHAFE", Language.GERMAN);
         Word word = new Word(letters, new Coordinates(2, 9), Direction.HORIZONTALLY);
         player.setWordOnBoard(word);
 

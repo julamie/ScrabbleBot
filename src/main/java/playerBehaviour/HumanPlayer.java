@@ -4,6 +4,7 @@ import boardStructure.Bag;
 import boardStructure.Board;
 import boardStructure.Coordinates;
 import boardStructure.Tile;
+import gameSetup.Language;
 import input.PlayerInput;
 import logic.*;
 
@@ -14,7 +15,7 @@ public class HumanPlayer extends Player {
 
     private Word getWordFromPlayer(PlayerInput input) {
         String wordInput = input.getWordToPlay();
-        Tile[] letters = this.bag.convertWordToTileArray(wordInput);
+        Tile[] letters = Tile.convertStringToTileArray(wordInput, this.bag.getLanguage());
         Coordinates coordinates = input.getCoordinates();
         Direction direction = determineDirection(input, letters, coordinates);
 

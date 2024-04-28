@@ -21,7 +21,7 @@ class WordValidationTest {
 
     private WordValidation getCustomWordValidator(String input, Coordinates coordinates, Direction direction) {
         Bag bag = new Bag(Language.GERMAN);
-        Tile[] letters = bag.convertWordToTileArray(input);
+        Tile[] letters = Tile.convertStringToTileArray(input, Language.GERMAN);
         Word word = new Word(letters, coordinates, direction);
 
         return new WordValidation(this.testBoard, this.testRack, word);

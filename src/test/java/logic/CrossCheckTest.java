@@ -27,7 +27,7 @@ class CrossCheckTest {
         // add a new tile for better cross-check testing
         board.setTileOnBoard(new Tile('S', 1), 6, 8);
 
-        Tile[] letters = new Bag(Language.GERMAN).convertWordToTileArray("BEISPIEL");
+        Tile[] letters = Tile.convertStringToTileArray("BEISPIEL", Language.GERMAN);
         Word word = new Word(letters, coordinates, direction);
         return new CrossCheck(board, word);
     }
