@@ -49,12 +49,12 @@ public class WordValidation {
         Square upperNeighbour = this.board.getUpperNeighbour(coordinates);
         Square lowerNeighbour = this.board.getLowerNeighbour(coordinates);
 
-        if (leftNeighbour  != null && leftNeighbour.isOccupied()) return true;
-        if (rightNeighbour != null && rightNeighbour.isOccupied()) return true;
-        if (upperNeighbour != null && upperNeighbour.isOccupied()) return true;
-        if (lowerNeighbour != null && lowerNeighbour.isOccupied()) return true;
+        boolean isConnectedLeft  =  leftNeighbour != null && leftNeighbour.isOccupied();
+        boolean isConnectedRight = rightNeighbour != null && rightNeighbour.isOccupied();
+        boolean isConnectedUp    = upperNeighbour != null && upperNeighbour.isOccupied();
+        boolean isConnectedDown  = lowerNeighbour != null && lowerNeighbour.isOccupied();
 
-        return false;
+        return isConnectedLeft || isConnectedRight || isConnectedUp || isConnectedDown;
     }
 
     public boolean isWordConnectedToWord() {
