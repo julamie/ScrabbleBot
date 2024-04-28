@@ -13,13 +13,6 @@ public class Game {
 
     private final Player[] players;
 
-    public Game(Language language, Board board, Bag bag, int numHumans, int numBots) {
-        Game.language = language;
-        Game.board = board;
-        Game.bag = bag;
-        this.players = createPlayers(numHumans, numBots);
-    }
-
     public Game(Language language, int numHumans, int numBots) {
         Game.language = language;
         Game.board = new Board();
