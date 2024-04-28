@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
-// TODO: Better move some behaviour elsewhere later on
 public class Bag {
 
     private final ArrayList<Tile> bag;
@@ -80,18 +79,5 @@ public class Bag {
 
     public Language getLanguage() {
         return language;
-    }
-
-    public Tile[] convertWordToTileArray(String wordInput) {
-        HashMap<Character, Integer> letterDistribution = this.language.getLetterDistribution();
-        Tile[] word = new Tile[wordInput.length()];
-
-        for (int i = 0; i < wordInput.length(); i++) {
-            char letter = wordInput.charAt(i);
-            Integer value = letterDistribution.get(letter);
-            word[i] = new Tile(letter, value);
-        }
-
-        return word;
     }
 }

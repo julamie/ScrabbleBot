@@ -1,5 +1,9 @@
 package boardStructure;
 
+import gameSetup.Language;
+
+import java.util.HashMap;
+
 public class Tile {
 
     private char letter;
@@ -36,5 +40,18 @@ public class Tile {
         if (this.letter != '?') throw new IllegalArgumentException("Can't change a tile that already has a letter on it");
 
         this.letter = letter;
+    }
+
+    public static Tile[] convertStringToTileArray(String wordInput, Language language) {
+        HashMap<Character, Integer> letterDistribution = language.getLetterDistribution();
+        Tile[] tiles = new Tile[wordInput.length()];
+
+        for (int i = 0; i < wordInput.length(); i++) {
+            char letter = wordInput.charAt(i);
+            Integer value = letterDistribution.get(letter);
+            tiles[i] = new Tile(letter, value);
+        }
+
+        return tiles;
     }
 }
