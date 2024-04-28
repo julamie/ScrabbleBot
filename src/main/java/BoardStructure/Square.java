@@ -3,7 +3,7 @@ package BoardStructure;
 public class Square {
 
     private Tile tile;
-    private SquareType type;
+    private final SquareType type;
 
     public Square(SquareType type) {
         this.type = type;

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardOutputTest {
 
-    private StringBuilder[] boardLines;
+    private final StringBuilder[] boardLines;
 
     public BoardOutputTest() {
         Board board = createTestBoard();

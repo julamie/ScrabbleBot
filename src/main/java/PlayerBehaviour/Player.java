@@ -7,9 +7,9 @@ import Logic.WordValidation;
 
 public abstract class Player {
 
-    protected Board board;
-    protected Bag bag;
-    protected Rack rack;
+    protected final Board board;
+    protected final Bag bag;
+    protected final Rack rack;
     protected int score;
 
     public Player(Board board, Bag bag) {

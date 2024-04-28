@@ -3,8 +3,8 @@ package BoardStructure;
 public class Tile {
 
     private char letter;
-    private int value;
-    private boolean isBlank;
+    private final int value;
+    private final boolean isBlank;
 
     public Tile(char letter, int value) {
         this.isBlank = letter == '?';
