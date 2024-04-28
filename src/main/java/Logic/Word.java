@@ -39,14 +39,13 @@ public class Word {
     }
 
     public Character getLetterAtCoordinates(Coordinates coordinates) {
-        int position = 0;
-
         int firstRow = this.firstLetterCoordinates.row();
         int firstCol = this.firstLetterCoordinates.col();
 
         // one coordinate in a word should be the same
         if (firstRow != coordinates.row() && firstCol != coordinates.col()) return null;
 
+        int position;
         if (firstRow != coordinates.row()) {
             position = coordinates.row() - this.firstLetterCoordinates.row();
         } else {
