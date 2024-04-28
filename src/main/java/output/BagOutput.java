@@ -27,11 +27,9 @@ public class BagOutput {
 
         return output;
     }
-
     public static StringBuilder[] getBagOutputLines(Bag bag) {
         ArrayList<StringBuilder> lines = new ArrayList<>();
 
-        HashMap<Character, Integer> startingDistribution = bag.getLetterDistribution();
         HashMap<Character, Integer> letterValues = bag.getLetterValues();
         HashMap<Character, Integer> bagDistribution = bag.getRemainingLetterDistribution();
 
