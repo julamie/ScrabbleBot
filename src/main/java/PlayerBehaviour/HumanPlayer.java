@@ -14,10 +14,14 @@ public class HumanPlayer extends Player {
         super(board, bag);
     }
 
+    public HumanPlayer() {
+        super();
+    }
+
     private Word getValidWordFromPlayer(PlayerInput input) {
         String wordInput = input.getWordToPlay();
         Tile[] letters = this.bag.convertWordToTileArray(wordInput);
-        Coordinates coordinates = input.getCoordinates(this.board.getSize());
+        Coordinates coordinates = input.getCoordinates();
         Direction direction = determineDirection(input, letters, coordinates);
         if (direction == null) return null;
 
@@ -85,7 +89,7 @@ public class HumanPlayer extends Player {
 
     @Override
     public void makeMove() {
-        PlayerInput input = new PlayerInput(this.bag, this.rack);
+        PlayerInput input = new PlayerInput(this);
 
         boolean validMoveMade = false;
         while (!validMoveMade) {
