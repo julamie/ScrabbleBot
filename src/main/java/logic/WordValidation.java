@@ -109,7 +109,7 @@ public class WordValidation {
     }
 
     public boolean areCrossWordsInDictionary() {
-        String[] crossWords = new CrossCheck(this.board, this.word).getCrossWordList();
+        String[] crossWords = new CrossCheck(this.board, this.word).getCrossWordStringList();
 
         for (String crossWord: crossWords) {
             if (!isWordInDictionary(crossWord)) return false;
