@@ -106,10 +106,9 @@ public class HumanPlayer extends Player {
     public void makeMove() {
         PlayerInput input = new PlayerInput(this);
 
-        TurnType chosenTurnType = null;
         boolean validMoveMade = false;
         while (!validMoveMade) {
-            chosenTurnType = input.determineTurnType();
+            TurnType chosenTurnType = input.determineTurnType();
             validMoveMade = switch (chosenTurnType) {
                 case PLAY_WORD -> handlePlayWord(input);
                 case EXCHANGE_LETTERS -> handleExchangeLetters(input);

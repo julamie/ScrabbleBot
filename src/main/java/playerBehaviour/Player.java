@@ -1,7 +1,6 @@
 package playerBehaviour;
 
 import boardStructure.*;
-import logic.TurnType;
 import logic.Word;
 import logic.WordValidation;
 import logic.WordValidity;
