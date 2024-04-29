@@ -34,7 +34,9 @@ class CrossCheckTest {
     @Test
     void horizontalCrossCheckShouldFindTheLetters() {
         String crossWordExpected = "SIA";
-        String crossWordActual = this.crossCheckHorizontal.getCrossWord(new Coordinates(6, 9));
+        Tile tile = new Tile('I', 1);
+        Coordinates coordinates = new Coordinates(6, 9);
+        String crossWordActual = this.crossCheckHorizontal.getCrossWordString(tile, coordinates);
 
         assertEquals(crossWordExpected, crossWordActual);
     }
@@ -42,7 +44,9 @@ class CrossCheckTest {
     @Test
     void verticalCrossCheckShouldFindTheLetters() {
         String crossWordExpected = "AIT";
-        String crossWordActual = this.crossCheckVertical.getCrossWord(new Coordinates(6, 9));
+        Tile tile = new Tile('I', 1);
+        Coordinates coordinates = new Coordinates(6, 9);
+        String crossWordActual = this.crossCheckVertical.getCrossWordString(tile, coordinates);
 
         assertEquals(crossWordExpected, crossWordActual);
     }
@@ -52,9 +56,23 @@ class CrossCheckTest {
         String[] crossWordListExpected = {
                 "BQ", "SIA", "PE", "IN"
         };
-        String[] crossWordListActual = this.crossCheckHorizontal.getCrossWordList();
+        String[] crossWordListActual = this.crossCheckHorizontal.getCrossWordStringList();
 
         assertArrayEquals(crossWordListExpected, crossWordListActual);
+    }
+
+    @Test
+    void horizontalCrossCheckShouldReturnTheCorrectCoordinates() {
+        Coordinates coordinatesEmptyLeftExpected = new Coordinates(4, 9);
+        Coordinates coordinatesFilledLeftExpected = new Coordinates(6, 8);
+
+        // test coordinates of cross-word of the B and I of Beispiel
+        Word[] words = this.crossCheckHorizontal.getCrossWordList();
+        Coordinates coordinatesEmptyLeftActual = words[0].getCoordinates(0);
+        Coordinates coordinatesFilledLeftActual = words[1].getCoordinates(0);
+
+        assertEquals(coordinatesEmptyLeftExpected, coordinatesEmptyLeftActual);
+        assertEquals(coordinatesFilledLeftExpected, coordinatesFilledLeftActual);
     }
 
     @Test
@@ -62,7 +80,21 @@ class CrossCheckTest {
         String[] crossWordListExpected = {
                 "BL", "AIT", "FP", "ZI", "UE", "BEZUGL"
         };
-        String[] crossWordListActual = this.crossCheckVertical.getCrossWordList();
+        String[] crossWordListActual = this.crossCheckVertical.getCrossWordStringList();
         assertArrayEquals(crossWordListExpected, crossWordListActual);
+    }
+
+    @Test
+    void verticalCrossCheckShouldFindTheCorrectCoordinates() {
+        Coordinates coordinatesEmptyLeftExpected = new Coordinates(6, 7);
+        Coordinates coordinatesFilledLeftExpected = new Coordinates(1, 14);
+
+        // test coordinates of cross-word of the B and L of Beispiel
+        Word[] words = this.crossCheckVertical.getCrossWordList();
+        Coordinates coordinatesEmptyLeftActual = words[0].getCoordinates(0);
+        Coordinates coordinatesFilledLeftActual = words[words.length - 1].getCoordinates(0);
+
+        assertEquals(coordinatesEmptyLeftExpected, coordinatesEmptyLeftActual);
+        assertEquals(coordinatesFilledLeftExpected, coordinatesFilledLeftActual);
     }
 }
