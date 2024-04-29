@@ -12,12 +12,14 @@ public abstract class Player {
     protected final Bag bag;
     protected final Rack rack;
     protected int score;
+    protected int numberConsecutivePasses;
 
     public Player(Board board, Bag bag) {
         this.board = board;
         this.bag = bag;
         this.rack = new Rack();
         this.score = 0;
+        this.numberConsecutivePasses = 0;
 
         fillRack();
     }
@@ -87,6 +89,14 @@ public abstract class Player {
         return this.bag;
     }
 
-    public abstract TurnType makeMove();
+    public int getScore() {
+        return this.score;
+    }
+
+    public int getNumberConsecutivePasses() {
+        return this.numberConsecutivePasses;
+    }
+
+    public abstract void makeMove();
 
 }

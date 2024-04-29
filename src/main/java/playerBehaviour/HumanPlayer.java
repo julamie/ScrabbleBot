@@ -46,6 +46,7 @@ public class HumanPlayer extends Player {
         }
 
         setWordOnBoard(word);
+        this.numberConsecutivePasses = 0;
 
         return true;
     }
@@ -89,14 +90,20 @@ public class HumanPlayer extends Player {
         }
 
         boolean validMoveMade = exchangeTiles(tilesToExchange);
-        if (!validMoveMade) System.err.println("There are less than seven tiles in the bag.\n" +
-                "Exchanging unavailable.");
+        if (validMoveMade) this.numberConsecutivePasses = 0;
+        else System.err.println("There are less than seven tiles in the bag.\n" +
+                    "Exchanging unavailable.");
 
         return validMoveMade;
     }
 
+    private boolean handlePassTurn() {
+        this.numberConsecutivePasses++;
+        return true;
+    }
+
     @Override
-    public TurnType makeMove() {
+    public void makeMove() {
         PlayerInput input = new PlayerInput(this);
 
         TurnType chosenTurnType = null;
@@ -106,11 +113,9 @@ public class HumanPlayer extends Player {
             validMoveMade = switch (chosenTurnType) {
                 case PLAY_WORD -> handlePlayWord(input);
                 case EXCHANGE_LETTERS -> handleExchangeLetters(input);
-                case PASS_TURN -> true;
+                case PASS_TURN -> handlePassTurn();
             };
 
         }
-
-        return chosenTurnType;
     }
 }
