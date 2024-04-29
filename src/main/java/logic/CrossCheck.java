@@ -2,6 +2,7 @@ package logic;
 
 import boardStructure.Board;
 import boardStructure.Coordinates;
+import boardStructure.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,96 +16,162 @@ public class CrossCheck {
         this.word = word;
     }
 
-    private String getLeftCrossWord(Coordinates coordinates) {
-        StringBuilder leftPart = new StringBuilder();
+    private Word getLeftCrossWord(Coordinates coordinates) {
+        ArrayList<Tile> tiles = new ArrayList<>();
 
-        coordinates = coordinates.getLeft();
-        while (coordinates != null && this.board.isOccupiedAt(coordinates)) {
-            leftPart.insert(0, this.board.getLetterAt(coordinates));
-            coordinates = coordinates.getLeft();
+        Coordinates currCoordinates = coordinates.getLeft();
+        while (currCoordinates != null && this.board.isOccupiedAt(currCoordinates)) {
+            char letter = this.board.getLetterAt(currCoordinates);
+            int value = this.board.getValueAt(currCoordinates);
+
+            tiles.add(0, new Tile(letter, value));
+            currCoordinates = currCoordinates.getLeft();
         }
 
-        return leftPart.toString();
+        // current position is currently one space to the left of coordinates of first letter
+        Coordinates firstLetterCoordinates;
+        if (currCoordinates == null) firstLetterCoordinates = new Coordinates(coordinates.row(), 0);
+        else firstLetterCoordinates = currCoordinates.getRight();
+
+        return new Word(tiles.toArray(new Tile[0]), firstLetterCoordinates, Direction.HORIZONTALLY);
     }
 
-    private String getRightCrossWord(Coordinates coordinates) {
-        StringBuilder rightPart = new StringBuilder();
+    private Word getRightCrossWord(Coordinates coordinates) {
+        ArrayList<Tile> tiles = new ArrayList<>();
 
-        coordinates = coordinates.getRight();
-        while (coordinates.col() < this.board.getSize() && this.board.isOccupiedAt(coordinates)) {
-            rightPart.append(this.board.getLetterAt(coordinates));
-            coordinates = coordinates.getRight();
+        Coordinates currCoordinates = coordinates.getRight();
+        Coordinates firstTileCoordinates = currCoordinates;
+        while (currCoordinates.col() < this.board.getSize() && this.board.isOccupiedAt(currCoordinates)) {
+            char letter = this.board.getLetterAt(currCoordinates);
+            int value = this.board.getValueAt(currCoordinates);
+
+            tiles.add(new Tile(letter, value));
+            currCoordinates = currCoordinates.getRight();
         }
 
-        return rightPart.toString();
+        return new Word(tiles.toArray(new Tile[0]), firstTileCoordinates, Direction.HORIZONTALLY);
     }
 
-    private String getUpperCrossWord(Coordinates coordinates) {
-        StringBuilder upperPart = new StringBuilder();
+    private Word getUpperCrossWord(Coordinates coordinates) {
+        ArrayList<Tile> tiles = new ArrayList<>();
 
-        coordinates = coordinates.getUpper();
-        while (coordinates != null && this.board.isOccupiedAt(coordinates)) {
-            upperPart.insert(0, this.board.getLetterAt(coordinates));
-            coordinates = coordinates.getUpper();
+        Coordinates currCoordinates = coordinates.getUpper();
+        while (currCoordinates != null && this.board.isOccupiedAt(currCoordinates)) {
+            char letter = this.board.getLetterAt(currCoordinates);
+            int value = this.board.getValueAt(currCoordinates);
+
+            tiles.add(0, new Tile(letter, value));
+            currCoordinates = currCoordinates.getUpper();
         }
 
-        return upperPart.toString();
+        // current position is currently one space above the coordinates of first letter
+        Coordinates firstLetterCoordinates;
+        if (currCoordinates == null) firstLetterCoordinates = new Coordinates(0, coordinates.col());
+        else firstLetterCoordinates = currCoordinates.getLower();
+
+        return new Word(tiles.toArray(new Tile[0]), firstLetterCoordinates, Direction.VERTICALLY);
     }
 
-    private String getLowerCrossWord(Coordinates coordinates) {
-        StringBuilder lowerPart = new StringBuilder();
+    private Word getLowerCrossWord(Coordinates coordinates) {
+        ArrayList<Tile> tiles = new ArrayList<>();
 
-        coordinates = coordinates.getLower();
-        while (coordinates.row() < this.board.getSize() && this.board.isOccupiedAt(coordinates)) {
-            lowerPart.append(this.board.getLetterAt(coordinates));
-            coordinates = coordinates.getLower();
+        Coordinates currCoordinates = coordinates.getLower();
+        Coordinates firstCoordinates = currCoordinates;
+        while (currCoordinates.row() < this.board.getSize() && this.board.isOccupiedAt(currCoordinates)) {
+            char letter = this.board.getLetterAt(currCoordinates);
+            int value = this.board.getValueAt(currCoordinates);
+
+            tiles.add(new Tile(letter, value));
+            currCoordinates = currCoordinates.getLower();
         }
 
-        return lowerPart.toString();
+        return new Word(tiles.toArray(new Tile[0]), firstCoordinates, Direction.VERTICALLY);
     }
 
-    private String getCrossWordHorizontal(Coordinates coordinates) {
-        String leftPart = getLeftCrossWord(coordinates);
-        char currLetter = this.word.getLetterAtCoordinates(coordinates);
-        String rightPart = getRightCrossWord(coordinates);
+    private Tile[] combineTileArrayParts(Tile[] leftPart, Tile middlePart, Tile[] rightPart) {
+        Tile[] combinedArray = new Tile[leftPart.length + 1 + rightPart.length];
 
-        if (leftPart.isEmpty() && rightPart.isEmpty()) return null;
-        return leftPart + currLetter + rightPart;
+        System.arraycopy(leftPart, 0, combinedArray, 0, leftPart.length);
+        combinedArray[leftPart.length] = middlePart;
+        System.arraycopy(rightPart, 0, combinedArray, leftPart.length + 1, rightPart.length);
+
+        return combinedArray;
     }
 
-    private String getCrossWordVertical(Coordinates coordinates) {
-        String upperPart = getUpperCrossWord(coordinates);
-        char currLetter = this.word.getLetterAtCoordinates(coordinates);
-        String lowerPart = getLowerCrossWord(coordinates);
+    private Word getCrossWordHorizontal(Tile tile, Coordinates coordinates) {
+        Word leftPart = getLeftCrossWord(coordinates);
+        Word rightPart = getRightCrossWord(coordinates);
 
-        if (upperPart.isEmpty() && lowerPart.isEmpty()) return null;
-        return upperPart + currLetter + lowerPart;
+        // no cross-word found
+        if (leftPart.toString().isEmpty() && rightPart.toString().isEmpty()) return null;
+
+        Tile[] letters = combineTileArrayParts(leftPart.getWordAsTileArray(), tile, rightPart.getWordAsTileArray());
+
+        Coordinates firstLetterCoordinates;
+        if (leftPart.getLength() == 0) firstLetterCoordinates = coordinates;
+        else firstLetterCoordinates = leftPart.getCoordinates(0);
+
+        return new Word(letters, firstLetterCoordinates, Direction.HORIZONTALLY);
     }
 
-    public String getCrossWord(Coordinates coordinates) {
+    private Word getCrossWordVertical(Tile tile, Coordinates coordinates) {
+        Word upperPart = getUpperCrossWord(coordinates);
+        Word lowerPart = getLowerCrossWord(coordinates);
+
+        // no cross-word found
+        if (upperPart.toString().isEmpty() && lowerPart.toString().isEmpty()) return null;
+
+        Tile[] letters = combineTileArrayParts(upperPart.getWordAsTileArray(), tile, lowerPart.getWordAsTileArray());
+        Coordinates firstLetterCoordinates;
+        if (upperPart.getLength() == 0) firstLetterCoordinates = coordinates;
+        else firstLetterCoordinates = upperPart.getCoordinates(0);
+
+        return new Word(letters, firstLetterCoordinates, Direction.VERTICALLY);
+    }
+
+    public Word getCrossWord(Tile tile, Coordinates coordinates) {
         return switch (this.word.getDirection()) {
             // check the opposite direction for cross-check
-            case HORIZONTALLY -> getCrossWordVertical(coordinates);
-            case VERTICALLY -> getCrossWordHorizontal(coordinates);
+            case HORIZONTALLY -> getCrossWordVertical(tile, coordinates);
+            case VERTICALLY -> getCrossWordHorizontal(tile, coordinates);
         };
     }
 
-    public String[] getCrossWordList() {
-        List<String> crossWordList = new ArrayList<>();
+    public Word[] getCrossWordList() {
+        List<Word> crossWordList = new ArrayList<>();
         for (int i = 0; i < this.word.getLength(); i++) {
+            Tile currTile = this.word.getWordAsTileArray()[i];
             Coordinates currCoordinates = this.word.getCoordinates(i);
 
             // don't cross-check already occupied spaces
             if (this.board.isOccupiedAt(currCoordinates)) continue;
 
-            String potentialCrossWord = getCrossWord(currCoordinates);
-
+            Word potentialCrossWord = getCrossWord(currTile, currCoordinates);
             if (potentialCrossWord == null) continue;
+
             crossWordList.add(potentialCrossWord);
         }
 
         // convert list to array
-        String[] crossWords = new String[crossWordList.size()];
+        Word[] crossWords = new Word[crossWordList.size()];
         return crossWordList.toArray(crossWords);
+    }
+
+    public String getCrossWordString(Tile tile, Coordinates coordinates) {
+        Word crossWord = getCrossWord(tile, coordinates);
+        if (crossWord == null) return null;
+
+        return crossWord.toString();
+    }
+
+    public String[] getCrossWordStringList() {
+        Word[] wordList = getCrossWordList();
+        String[] wordStringList = new String[wordList.length];
+
+        for (int i = 0; i < wordList.length; i++) {
+            wordStringList[i] = wordList[i].toString();
+        }
+
+        return wordStringList;
     }
 }
