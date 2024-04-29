@@ -43,12 +43,12 @@ public class Tile {
     }
 
     public static Tile[] convertStringToTileArray(String wordInput, Language language) {
-        HashMap<Character, Integer> letterDistribution = language.getLetterDistribution();
+        HashMap<Character, Integer> letterValues = language.getLetterValues();
         Tile[] tiles = new Tile[wordInput.length()];
 
         for (int i = 0; i < wordInput.length(); i++) {
-            char letter = wordInput.charAt(i);
-            Integer value = letterDistribution.get(letter);
+            char letter = wordInput.toUpperCase().charAt(i);
+            Integer value = letterValues.get(letter);
             tiles[i] = new Tile(letter, value);
         }
 
