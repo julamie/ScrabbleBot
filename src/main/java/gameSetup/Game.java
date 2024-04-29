@@ -19,16 +19,6 @@ public class Game {
         this.players = createPlayersInRandomOrder(numHumans, numBots);
     }
 
-    public void start() {
-        int numMoves = 0;
-        while (numMoves++ <= 10) {
-            for (Player player : this.players) {
-                player.makeMove();
-                Output.printBoard(this.board);
-            }
-        }
-    }
-
     private Player[] createPlayersInRandomOrder(int numHumans, int numBots) {
         int numPlayers = numHumans + numBots;
         Player[] players = new Player[numPlayers];
@@ -36,8 +26,7 @@ public class Game {
         int i = 0;
         while (i < numPlayers) {
             if (numHumans == 0) players[i] = new HumanPlayer(this.board, this.bag);
-            else if (numBots == 0) players[i] = new HumanPlayer(this.board, this.bag);
-
+            else if (numBots == 0) players[i] = new HumanPlayer(this.board, this.bag); // TODO: Replace with BotPlayer
             else {
                 Player newPlayer = createRandomPlayerType();
                 if (newPlayer instanceof HumanPlayer) numPlayers--;
@@ -54,5 +43,41 @@ public class Game {
         Random random = new Random();
         if (random.nextInt(2) == 0) return new HumanPlayer(this.board, this.bag);
         else return new HumanPlayer(this.board, this.bag); // TODO: Replace with BotPlayer
+    }
+
+    private boolean hasEveryPlayerPassedTwiceInARow() {
+        for (Player player: this.players) {
+            if (player.getNumberConsecutivePasses() < 2) return false;
+        }
+        return true;
+    }
+
+    private boolean isPlayersRackEmpty(Player player) {
+        return this.bag.isEmpty() && player.getRack().isEmpty();
+    }
+
+    private boolean isGameOver(Player player) {
+        return isPlayersRackEmpty(player) ||
+               hasEveryPlayerPassedTwiceInARow();
+    }
+
+    private boolean playOneRound() {
+        for (Player player : this.players) {
+            Output.printBoard(this.board);
+            player.makeMove();
+
+            if (isGameOver(player)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void start() {
+        boolean isGameOver = false;
+        while (!isGameOver) {
+            isGameOver = playOneRound();
+        }
     }
 }
