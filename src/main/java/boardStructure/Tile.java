@@ -21,7 +21,7 @@ public class Tile {
     private boolean checkTile(char letter, int value) {
         if (this.isBlank) return value == 0;
 
-        return Character.isLetter(letter) && value > 0;
+        return Character.isLetter(letter) && value >= 0;
     }
 
     public char getLetter() {
