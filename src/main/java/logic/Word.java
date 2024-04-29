@@ -23,6 +23,10 @@ public class Word {
         return word[position].getValue();
     }
 
+    public Tile[] getWordAsTileArray() {
+        return this.word;
+    }
+
     public Coordinates getCoordinates(int position) {
         return switch (this.direction) {
             case HORIZONTALLY -> new Coordinates(this.firstLetterCoordinates.row(), this.firstLetterCoordinates.col() + position);
