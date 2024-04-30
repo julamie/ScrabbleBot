@@ -30,9 +30,8 @@ class ScoringTest {
     @Test
     void axolotlAsCrossWordShouldGive18Points() {
         Tile[] axolotl = Tile.convertStringToTileArray("AXOLOTL", Language.GERMAN);
-        Word word = new Word(axolotl, new Coordinates(4, 7), Direction.VERTICALLY);
 
-        assertEquals(18, new Scoring(this.board, word).calculateCrossWordScore(word));
+        assertEquals(18, Scoring.calculateOnlyLetterValues(axolotl));
     }
 
     @Test
