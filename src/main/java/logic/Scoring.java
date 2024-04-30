@@ -2,6 +2,7 @@ package logic;
 
 import boardStructure.Board;
 import boardStructure.Square;
+import boardStructure.Tile;
 
 public class Scoring {
 
@@ -45,10 +46,10 @@ public class Scoring {
         return wordMultiplicator * wordScore;
     }
 
-    public int calculateCrossWordScore(Word crossWord) {
+    public static int calculateOnlyLetterValues(Tile[] crossWord) {
         int crossWordScore = 0;
-        for (int i = 0; i < crossWord.getLength(); i++) {
-            crossWordScore += crossWord.getLetterValue(i);
+        for (Tile tile : crossWord) {
+            crossWordScore += tile.getValue();
         }
 
         return crossWordScore;
@@ -60,7 +61,7 @@ public class Scoring {
 
         Word[] crossWords = new CrossCheck(this.board, this.word).getCrossWordList();
         for (Word crossWord: crossWords) {
-            totalScore += calculateCrossWordScore(crossWord);
+            totalScore += calculateOnlyLetterValues(crossWord.getWordAsTileArray());
         }
 
         return totalScore;
