@@ -16,7 +16,7 @@ public class Scoring {
 
     public int calculateWordScore() {
         int wordScore = 0;
-        int wordMultiplicator = 1;
+        int wordFactor = 1;
 
         for (int i = 0; i < this.word.getLength(); i++) {
             int letterValue = this.word.getLetterValue(i);
@@ -34,16 +34,16 @@ public class Scoring {
                 case LETTER_BONUS_TRIPLE -> wordScore += 3 * letterValue;
                 case WORD_BONUS_DOUBLE -> {
                     wordScore += letterValue;
-                    wordMultiplicator *= 2;
+                    wordFactor *= 2;
                 }
                 case WORD_BONUS_TRIPLE -> {
                     wordScore += letterValue;
-                    wordMultiplicator *= 3;
+                    wordFactor *= 3;
                 }
             }
         }
 
-        return wordMultiplicator * wordScore;
+        return wordFactor * wordScore;
     }
 
     public static int calculateOnlyLetterValues(Tile[] crossWord) {
