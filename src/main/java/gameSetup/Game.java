@@ -2,10 +2,15 @@ package gameSetup;
 
 import boardStructure.Bag;
 import boardStructure.Board;
+import boardStructure.Rack;
+import boardStructure.Tile;
+import logic.Scoring;
 import output.Output;
 import playerBehaviour.HumanPlayer;
 import playerBehaviour.Player;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Game {
@@ -74,10 +79,57 @@ public class Game {
         return false;
     }
 
+    private int calculateRackValueFromPlayer(Player player) {
+        Rack rack = player.getRack();
+        Tile[] rackLetters = rack.getTileRack().toArray(new Tile[0]);
+
+        return Scoring.calculateOnlyLetterValues(rackLetters);
+    }
+
+    private Player removeRackValuesFromPlayers() {
+        Player emptyRackPlayer = null;
+
+        for (Player player: this.players) {
+            if (player.getRack().isEmpty()) {
+                emptyRackPlayer = player;
+                continue;
+            }
+
+            player.addToScore(-1 * calculateRackValueFromPlayer(player));
+        }
+
+        return emptyRackPlayer;
+    }
+
+    private void giftEmptyRackPlayerRackValues(Player playerWithNoTilesOnRack) {
+        if (playerWithNoTilesOnRack == null) return;
+
+        for (Player player: this.players) {
+            if (player == playerWithNoTilesOnRack) continue;
+
+            playerWithNoTilesOnRack.addToScore(calculateRackValueFromPlayer(player));
+        }
+    }
+
+    private void showScoreBoard() {
+        Arrays.sort(this.players, Comparator.comparingInt(Player::getScore));
+
+        for (int i = 0; i < this.players.length; i++) {
+            System.out.printf("%d. Place: The player with score: %d", i, this.players[i].getScore());
+        }
+    }
+
+    private void endGame() {
+        Player emptyRackPlayer = removeRackValuesFromPlayers();
+        giftEmptyRackPlayerRackValues(emptyRackPlayer);
+        showScoreBoard();
+    }
+
     public void start() {
         boolean isGameOver = false;
         while (!isGameOver) {
             isGameOver = playOneRound();
         }
+        endGame();
     }
 }
