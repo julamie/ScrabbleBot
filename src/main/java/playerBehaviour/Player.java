@@ -1,6 +1,7 @@
 package playerBehaviour;
 
 import boardStructure.*;
+import logic.Scoring;
 import logic.Word;
 import logic.WordValidation;
 import logic.WordValidity;
@@ -55,9 +56,16 @@ public abstract class Player {
         for (int position = 0; position < word.getLength(); position++) {
             setTileOnBoard(word, position);
         }
+
+        handleScores(word);
         fillRack();
 
         return true;
+    }
+
+    private void handleScores(Word word) {
+        this.score += new Scoring(this.board, word).calculateScore();
+        if (this.rack.isEmpty()) this.score += 50;
     }
 
     protected boolean exchangeTiles(Tile[] tilesFromRack) {
