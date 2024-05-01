@@ -28,10 +28,10 @@ class ScoringTest {
     }
 
     @Test
-    void axolotlAsCrossWordShouldGive18Points() {
+    void axolotlAsWordsOnRackShouldGive18Points() {
         Tile[] axolotl = Tile.convertStringToTileArray("AXOLOTL", Language.GERMAN);
 
-        assertEquals(18, Scoring.calculateOnlyLetterValues(axolotl));
+        assertEquals(18, Scoring.calculateOnlyTileValues(axolotl));
     }
 
     @Test
@@ -40,5 +40,13 @@ class ScoringTest {
         Word word = new Word(seife, new Coordinates(8, 11), Direction.VERTICALLY);
 
         assertEquals(20, new Scoring(this.board, word).calculateScore());
+    }
+
+    @Test
+    void wordWithCrossWordShouldCountSpecialSquareTwice() {
+        Tile[] saugen = Tile.convertStringToTileArray("SAUGEN", Language.GERMAN);
+        Word word = new Word(saugen, new Coordinates(9, 5), Direction.HORIZONTALLY);
+
+        assertEquals(23, new Scoring(this.board, word).calculateScore());
     }
 }
