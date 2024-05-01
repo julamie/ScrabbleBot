@@ -4,6 +4,7 @@ public enum WordValidity {
     VALID,
     NOT_IN_BOUNDS,
     OVERLAPS_TILES,
+    NO_SPACE_AROUND_WORD,
     DISCONNECTED,
     TILES_NOT_ON_RACK,
     WORD_NOT_IN_DICTIONARY,
