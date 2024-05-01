@@ -83,7 +83,7 @@ public class Game {
         Rack rack = player.getRack();
         Tile[] rackLetters = rack.getTileRack().toArray(new Tile[0]);
 
-        return Scoring.calculateOnlyLetterValues(rackLetters);
+        return Scoring.calculateOnlyTileValues(rackLetters);
     }
 
     private Player removeRackValuesFromPlayers() {
@@ -112,10 +112,11 @@ public class Game {
     }
 
     private void showScoreBoard() {
-        Arrays.sort(this.players, Comparator.comparingInt(Player::getScore));
+        System.out.println("The game has ended. Here are the scores:");
+        Arrays.sort(this.players, Comparator.comparingInt(Player::getScore).reversed());
 
         for (int i = 0; i < this.players.length; i++) {
-            System.out.printf("%d. Place: The player with score: %d", i, this.players[i].getScore());
+            System.out.printf("%d. Place: The player with score: %d\n", i + 1, this.players[i].getScore());
         }
     }
 
