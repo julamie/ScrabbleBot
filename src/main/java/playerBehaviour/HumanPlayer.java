@@ -85,8 +85,9 @@ public class HumanPlayer extends Player {
         if (!areAllLettersOnTheRack(lettersToExchange)) return false;
 
         Tile[] tilesToExchange = new Tile[lettersToExchange.length];
-        for (char letter: lettersToExchange) {
-            this.rack.removeTileFromRack(letter);
+        for (int i = 0; i < lettersToExchange.length; i++) {
+            char currLetter = lettersToExchange[i];
+            tilesToExchange[i] = rack.removeTileFromRack(currLetter);
         }
 
         boolean validMoveMade = exchangeTiles(tilesToExchange);
