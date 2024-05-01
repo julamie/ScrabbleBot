@@ -53,11 +53,13 @@ public abstract class Player {
     protected boolean setWordOnBoard(Word word) {
         if (checkWord(word) != WordValidity.VALID) return false;
 
+        // change points before setting tiles on board for checking if tile is already on board in Scoring
+        handleScores(word);
+
         for (int position = 0; position < word.getLength(); position++) {
             setTileOnBoard(word, position);
         }
 
-        handleScores(word);
         fillRack();
 
         return true;
