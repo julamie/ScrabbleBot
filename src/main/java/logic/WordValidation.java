@@ -43,6 +43,39 @@ public class WordValidation {
         return true;
     }
 
+    private boolean isWordSurroundedHorizontallyBySpaces() {
+        Coordinates firstLetterCoords = this.word.getCoordinates(0);
+        Coordinates lastLetterCoords = this.word.getCoordinates(this.word.getLength() - 1);
+
+        Coordinates beforeCoords = firstLetterCoords.getLeft();
+        Coordinates afterCoords = lastLetterCoords.getRight();
+
+        boolean beforeUnconnected = beforeCoords == null || !this.board.isOccupiedAt(beforeCoords);
+        boolean afterUnconnected = afterCoords.col() >= this.board.getSize() || !this.board.isOccupiedAt(afterCoords);
+
+        return beforeUnconnected && afterUnconnected;
+    }
+
+    private boolean isWordSurroundedVerticallyBySpaces() {
+        Coordinates firstLetterCoords = this.word.getCoordinates(0);
+        Coordinates lastLetterCoords = this.word.getCoordinates(this.word.getLength() - 1);
+
+        Coordinates beforeCoords = firstLetterCoords.getUpper();
+        Coordinates afterCoords = lastLetterCoords.getLower();
+
+        boolean beforeUnconnected = beforeCoords == null || !this.board.isOccupiedAt(beforeCoords);
+        boolean afterUnconnected = afterCoords.row() >= this.board.getSize() || !this.board.isOccupiedAt(afterCoords);
+
+        return beforeUnconnected && afterUnconnected;
+    }
+
+    public boolean isWordSurroundedBySpaces() {
+        return switch (this.word.getDirection()) {
+            case HORIZONTALLY -> isWordSurroundedHorizontallyBySpaces();
+            case VERTICALLY -> isWordSurroundedVerticallyBySpaces();
+        };
+    }
+
     private boolean isTileConnectedToOtherTiles(Coordinates coordinates) {
         Square leftNeighbour  = this.board.getLeftNeighbour(coordinates);
         Square rightNeighbour = this.board.getRightNeighbour(coordinates);
@@ -136,6 +169,7 @@ public class WordValidation {
 
         if (!doesWordStayInBounds())           return WordValidity.NOT_IN_BOUNDS;
         if (!doesWordNotOverlapOtherTiles())   return WordValidity.OVERLAPS_TILES;
+        if (!isWordSurroundedBySpaces())       return WordValidity.NO_SPACE_AROUND_WORD;
         if (!isWordConnectedToWord())          return WordValidity.DISCONNECTED;
         if (!canWordBePlayedWithTilesOnRack()) return WordValidity.TILES_NOT_ON_RACK;
         if (!isWordInDictionary())             return WordValidity.WORD_NOT_IN_DICTIONARY;
