@@ -17,6 +17,7 @@ public class PlayerInput {
     }
 
     public TurnType determineTurnType() {
+        printPlayerInformation();
         printTurnTypePrompt();
 
         while (true) {
@@ -34,8 +35,12 @@ public class PlayerInput {
         }
     }
 
-    private void printTurnTypePrompt() {
+    private void printPlayerInformation() {
+        System.out.println("Your current score: " + player.getScore());
         Output.printRack(player.getRack());
+    }
+
+    private void printTurnTypePrompt() {
         String outputLine = "Please type in your word.\nAlternatively you can do the following:\n";
         outputLine += "E = exchange letters\nP = pass turn\nS = show remaining tiles in bag";
         System.out.println(outputLine);
