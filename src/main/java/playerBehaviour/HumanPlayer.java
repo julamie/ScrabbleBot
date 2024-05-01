@@ -55,6 +55,7 @@ public class HumanPlayer extends Player {
         switch (validity) {
             case NOT_IN_BOUNDS -> System.err.println("Your word is too long for the board.");
             case OVERLAPS_TILES -> System.err.println("Your word would overlap other tiles with a different letter.");
+            case NO_SPACE_AROUND_WORD -> System.err.println("Your word connects to another word in your direction");
             case DISCONNECTED -> System.err.println("Your word doesn't connect with any other word on the board.");
             case TILES_NOT_ON_RACK -> System.err.println("You can't play that word with the tiles on your rack.");
             case WORD_NOT_IN_DICTIONARY -> System.err.println("This word doesn't exist.");
