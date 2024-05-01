@@ -16,7 +16,7 @@ public class TileOutput {
         StringBuilder output = new StringBuilder(CREAM_BG);
 
         // don't print letter value of blank tile
-        if (tile.isBlank()) return output.append("     ").append(RESET);
+        if (tile.getValue() == 0) return output.append("     ").append(RESET);
 
         // add whitespace for values
         if (tile.getValue() >= 10) output.append("   ");
