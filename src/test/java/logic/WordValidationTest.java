@@ -176,4 +176,22 @@ class WordValidationTest {
         assertFalse(validationHorizontal.isWordCoveringTheMiddleSquare());
         assertFalse(validationVertical.isWordCoveringTheMiddleSquare());
     }
+
+    @Test
+    void wordIsConnectedToOtherWordInDirection() {
+        WordValidation validationHorizontal = getAxolotlValidator(new Coordinates(5,2), Direction.HORIZONTALLY);
+        WordValidation validationVertical = getAxolotlValidator(new Coordinates(6,14), Direction.VERTICALLY);
+
+        assertFalse(validationHorizontal.isWordSurroundedBySpaces());
+        assertFalse(validationVertical.isWordSurroundedBySpaces());
+    }
+
+    @Test
+    void wordHasSpacesAroundIt() {
+        WordValidation validationHorizontal = getAxolotlValidator(new Coordinates(5,1), Direction.HORIZONTALLY);
+        WordValidation validationVertical = getAxolotlValidator(new Coordinates(7,14), Direction.VERTICALLY);
+
+        assertTrue(validationHorizontal.isWordSurroundedBySpaces());
+        assertTrue(validationVertical.isWordSurroundedBySpaces());
+    }
 }
