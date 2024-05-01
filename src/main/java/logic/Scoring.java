@@ -15,11 +15,15 @@ public class Scoring {
     }
 
     public int calculateWordScore() {
+        return calculateWordScore(this.word);
+    }
+
+    public int calculateWordScore(Word word) {
         int wordScore = 0;
         int wordFactor = 1;
 
-        for (int i = 0; i < this.word.getLength(); i++) {
-            int letterValue = this.word.getLetterValue(i);
+        for (int i = 0; i < word.getLength(); i++) {
+            int letterValue = word.getLetterValue(i);
             Square square = this.board.getSquareAt(word.getCoordinates(i));
 
             // calculate no extra points for tiles that are already there
@@ -46,9 +50,9 @@ public class Scoring {
         return wordFactor * wordScore;
     }
 
-    public static int calculateOnlyLetterValues(Tile[] crossWord) {
+    public static int calculateOnlyTileValues(Tile[] tiles) {
         int crossWordScore = 0;
-        for (Tile tile : crossWord) {
+        for (Tile tile : tiles) {
             crossWordScore += tile.getValue();
         }
 
@@ -61,7 +65,7 @@ public class Scoring {
 
         Word[] crossWords = new CrossCheck(this.board, this.word).getCrossWordList();
         for (Word crossWord: crossWords) {
-            totalScore += calculateOnlyLetterValues(crossWord.getWordAsTileArray());
+            totalScore += calculateWordScore(crossWord);
         }
 
         return totalScore;
