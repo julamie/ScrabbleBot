@@ -8,8 +8,10 @@ import input.PlayerInput;
 import logic.*;
 
 public class HumanPlayer extends Player {
+
     public HumanPlayer(Board board, Bag bag) {
         super(board, bag);
+        this.name = "HumanPlayer";
     }
 
     private Word getWordFromPlayer(PlayerInput input) {

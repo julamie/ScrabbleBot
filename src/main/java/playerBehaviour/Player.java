@@ -11,6 +11,7 @@ public abstract class Player {
     protected final Board board;
     protected final Bag bag;
     protected final Rack rack;
+    protected String name;
     protected int score;
     protected int numberConsecutivePasses;
 
@@ -20,18 +21,15 @@ public abstract class Player {
         this.rack = new Rack();
         this.score = 0;
         this.numberConsecutivePasses = 0;
-
-        fillRack();
     }
 
-    private void fillRack() {
+    public void fillRack() {
         // rack should have 7 tiles, or less if there are no more tiles in the bag
         int numTiles = Math.min(this.bag.getSize(), 7 - this.rack.getSize());
 
         Tile[] removedTiles = this.bag.drawTilesFromBag(numTiles);
         this.rack.addTilesToRack(removedTiles);
     }
-
 
     private void setTileOnBoard(Word word, int position) {
         char currLetter = word.getLetter(position);
@@ -100,6 +98,14 @@ public abstract class Player {
 
     public int getScore() {
         return this.score;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getNumberConsecutivePasses() {
