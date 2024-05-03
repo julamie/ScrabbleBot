@@ -36,6 +36,7 @@ public class PlayerInput {
     }
 
     private void printPlayerInformation() {
+        System.out.println("Current player: " + this.player.getName());
         System.out.println("Your current score: " + player.getScore());
         Output.printRack(player.getRack());
     }
