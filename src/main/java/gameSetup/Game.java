@@ -4,14 +4,15 @@ import boardStructure.Bag;
 import boardStructure.Board;
 import boardStructure.Rack;
 import boardStructure.Tile;
+import input.GameInput;
 import logic.Scoring;
 import output.Output;
 import playerBehaviour.HumanPlayer;
 import playerBehaviour.Player;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Random;
 
 public class Game {
     private final Board board;
@@ -25,29 +26,28 @@ public class Game {
     }
 
     private Player[] createPlayersInRandomOrder(int numHumans, int numBots) {
+        GameInput input = new GameInput();
         int numPlayers = numHumans + numBots;
         Player[] players = new Player[numPlayers];
 
-        int i = 0;
-        while (i < numPlayers) {
-            if (numHumans == 0) players[i] = new HumanPlayer(this.board, this.bag);
-            else if (numBots == 0) players[i] = new HumanPlayer(this.board, this.bag); // TODO: Replace with BotPlayer
-            else {
-                Player newPlayer = createRandomPlayerType();
-                if (newPlayer instanceof HumanPlayer) numPlayers--;
-                else numBots--;
-            }
-
-            i++;
+        for (int i = 0; i < numHumans; i++) {
+            players[i] = new HumanPlayer(this.board, this.bag);
+            players[i].setName(input.getHumanPlayerName());
         }
 
+        for (int i = numHumans; i < numPlayers; i++) {
+            players[i] = new HumanPlayer(this.board, this.bag); // TODO: Replace with BotPlayer
+            players[i].setName(input.getBotName());
+        }
+
+        Collections.shuffle(Arrays.asList(players));
         return players;
     }
 
-    private Player createRandomPlayerType() {
-        Random random = new Random();
-        if (random.nextInt(2) == 0) return new HumanPlayer(this.board, this.bag);
-        else return new HumanPlayer(this.board, this.bag); // TODO: Replace with BotPlayer
+    private void letPlayersFillTheirRack() {
+        for (Player player: this.players) {
+            player.fillRack();
+        }
     }
 
     private boolean hasEveryPlayerPassedTwiceInARow() {
@@ -63,7 +63,7 @@ public class Game {
 
     private boolean isGameOver(Player player) {
         return isPlayersRackEmpty(player) ||
-               hasEveryPlayerPassedTwiceInARow();
+                hasEveryPlayerPassedTwiceInARow();
     }
 
     private boolean playOneRound() {
@@ -111,23 +111,26 @@ public class Game {
         }
     }
 
-    private void showScoreBoard() {
+    private void showLeaderBoard() {
         System.out.println("The game has ended. Here are the scores:");
         Arrays.sort(this.players, Comparator.comparingInt(Player::getScore).reversed());
 
         for (int i = 0; i < this.players.length; i++) {
-            System.out.printf("%d. Place: The player with score: %d\n", i + 1, this.players[i].getScore());
+            Player currPlayer = this.players[i];
+            System.out.printf("%d. Place: %s with score: %d\n", i + 1, currPlayer.getName(), currPlayer.getScore());
         }
     }
 
     private void endGame() {
         Player emptyRackPlayer = removeRackValuesFromPlayers();
         giftEmptyRackPlayerRackValues(emptyRackPlayer);
-        showScoreBoard();
+        showLeaderBoard();
     }
 
     public void start() {
         boolean isGameOver = false;
+
+        letPlayersFillTheirRack();
         while (!isGameOver) {
             isGameOver = playOneRound();
         }
