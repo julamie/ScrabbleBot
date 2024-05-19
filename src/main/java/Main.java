@@ -3,6 +3,6 @@ import gameSetup.Language;
 
 public class Main {
     public static void main(String[] args) {
-        new Game(Language.GERMAN, 1, 0).start();
+        new Game(Language.GERMAN, 2, 0).start();
     }
 }
