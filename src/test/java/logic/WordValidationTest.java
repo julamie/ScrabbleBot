@@ -148,13 +148,8 @@ class WordValidationTest {
 
     @Test
     void xnopytShouldNotBeAWordInTheDictionary() {
-        // TODO: Uncomment when dictionary lookup is implemented
-
-        //WordValidation validation = getCustomWordValidator(
-        //                                "XNOPYT",
-        //                                new Coordinates(0, 0),
-        //                                Direction.HORIZONTALLY);
-        //assertFalse(validation.isWordInDictionary());
+        WordValidation validation = getCustomWordValidator("XNOPYT", new Coordinates(0, 0), Direction.HORIZONTALLY);
+        assertFalse(validation.isWordInDictionary());
     }
 
     @Test
