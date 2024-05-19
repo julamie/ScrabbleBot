@@ -23,6 +23,7 @@ public class Game {
         this.board = new Board();
         this.bag = new Bag(language);
         this.players = createPlayersInRandomOrder(numHumans, numBots);
+        Dictionary.setDictionaryLanguage(language); // needed for default dictionary language in WordValidation
     }
 
     private Player[] createPlayersInRandomOrder(int numHumans, int numBots) {
