@@ -92,6 +92,7 @@ public class PlayerInput {
             // parse input
             Scanner scanner = new Scanner(System.in);
             String parsedLine = scanner.nextLine().trim();
+            if (parsedLine.isEmpty()) continue;
 
             Integer column = processAndCheckColumnInput(boardSize, parsedLine);
             if (column == null) continue;
