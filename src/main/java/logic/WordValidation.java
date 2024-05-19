@@ -4,6 +4,7 @@ import boardStructure.Board;
 import boardStructure.Coordinates;
 import boardStructure.Rack;
 import boardStructure.Square;
+import gameSetup.Dictionary;
 import playerBehaviour.Player;
 
 public class WordValidation {
@@ -134,7 +135,7 @@ public class WordValidation {
     }
 
     public boolean isWordInDictionary(String word) {
-        return true; // TODO: Add check if word is in dictionary
+        return Dictionary.isWord(word);
     }
 
     public boolean isWordInDictionary() {
