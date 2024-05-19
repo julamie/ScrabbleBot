@@ -76,6 +76,8 @@ public class PlayerInput {
     }
 
     private void showTilesInBag() {
+        if (player.getBag().isEmpty()) System.out.println("The bag is empty.");
+
         Output.printBag(player.getBag());
         printTurnTypePrompt();
     }
