@@ -35,6 +35,7 @@ class PlayerTest {
 
     @Test
     void placingLegalWordShouldReturnTrue() {
+        this.player.fillRack();
         Tile[] letters = Tile.convertStringToTileArray("SCHAFE", Language.GERMAN);
         Word word = new Word(letters, new Coordinates(2, 9), Direction.HORIZONTALLY);
 
@@ -43,6 +44,7 @@ class PlayerTest {
 
     @Test
     void fillingUpTilesFromEmptyBagShouldNotGiveAnythingBack() {
+        this.player.fillRack();
         Tile[] letters = Tile.convertStringToTileArray("SCHAFE", Language.GERMAN);
         Word word = new Word(letters, new Coordinates(2, 9), Direction.HORIZONTALLY);
         player.setWordOnBoard(word);
@@ -52,10 +54,9 @@ class PlayerTest {
 
     @Test
     void exchangingTilesOnAlmostEmptyBagShouldReturnFalse() {
-        // let the bag have only five tiles inside;
+        // let the bag have only five tiles inside
         // new almost empty bag, because a new player immediately takes the remaining tiles
-        this.bag = new TestObjects().getTestBag();
-        this.bag.drawTilesFromBag(this.bag.getSize() - 5);
+        this.player.getBag().drawTilesFromBag(this.bag.getSize() - 5);
 
         Tile[] testTileToExchange = {new Tile('F', 3)};
         assertFalse(player.exchangeTiles(testTileToExchange));
