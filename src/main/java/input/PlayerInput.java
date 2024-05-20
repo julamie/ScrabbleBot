@@ -59,7 +59,7 @@ public class PlayerInput {
 
         // check if word is continuous and has only letters
         if (!chosenInput.chars().allMatch(Character::isLetter)) {
-            System.err.println("Word should consist out of letters without a space. Please try again.");
+            System.err.println("Word should only consist of letters that have no space in-between. Please try again.");
             return false;
         }
 
