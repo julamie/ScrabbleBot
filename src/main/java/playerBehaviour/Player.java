@@ -31,17 +31,6 @@ public abstract class Player {
         this.rack.addTilesToRack(removedTiles);
     }
 
-    private void setTileOnBoard(Word word, int position) {
-        char currLetter = word.getLetter(position);
-        Coordinates currCoordinates = word.getCoordinates(position);
-        Square currSquare = this.board.getSquareAt(currCoordinates);
-
-        if (currSquare.isOccupied() && currSquare.getLetter() == currLetter) return;
-
-        Tile tileFromRack = this.rack.removeTileFromRack(currLetter);
-        this.board.setTileOnBoard(tileFromRack, currCoordinates);
-    }
-
     protected WordValidity checkWord(Word word) {
         WordValidation wordValidation = new WordValidation(this, word);
 
@@ -51,9 +40,13 @@ public abstract class Player {
     protected boolean setWordOnBoard(Word word) {
         if (checkWord(word) != WordValidity.VALID) return false;
 
+        // replace tiles in word with actual tiles from rack, where blanks can be inside
+        word = replaceWordTilesWithTilesFromRack(word);
+
         // change points before setting tiles on board for checking if tile is already on board in Scoring
         handleScores(word);
 
+        // set tiles on board
         for (int position = 0; position < word.getLength(); position++) {
             setTileOnBoard(word, position);
         }
@@ -61,6 +54,38 @@ public abstract class Player {
         fillRack();
 
         return true;
+    }
+
+    private Word replaceWordTilesWithTilesFromRack(Word word) {
+        Tile[] tiles = new Tile[word.getLength()];
+
+        for (int position = 0; position < tiles.length; position++) {
+            tiles[position] = getTileToPlay(word, position);
+        }
+
+        return new Word(tiles, word.getCoordinates(0), word.getDirection());
+    }
+
+    private Tile getTileToPlay(Word word, int position) {
+        char currLetter = word.getLetter(position);
+        Coordinates currCoordinates = word.getCoordinates(position);
+        Square currSquare = this.board.getSquareAt(currCoordinates);
+
+        // don't replace the tile if it is already on the board
+        if (currSquare.isOccupied() && currSquare.getLetter() == currLetter) {
+            return word.getWordAsTileArray()[position];
+        }
+
+        return this.rack.removeTileFromRack(currLetter);
+    }
+
+    private void setTileOnBoard(Word word, int position) {
+        Tile tileFromRack = word.getWordAsTileArray()[position];
+        Coordinates tileCoordinate = word.getCoordinates(position);
+
+        if (this.board.isOccupiedAt(tileCoordinate)) return;
+
+        this.board.setTileOnBoard(tileFromRack, tileCoordinate);
     }
 
     private void handleScores(Word word) {
